@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">BarberApp</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="welcome_to_barberapp">Welcome to BarberApp</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="log_in">Log in</string>
+    <string name="sign_up">Sign up</string>
+</resources>
