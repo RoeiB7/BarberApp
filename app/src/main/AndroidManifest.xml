@@ -8,6 +8,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.BarberApp"></application>
+        android:theme="@style/Theme.BarberApp">
+        <activity android:name=".activities.SignUpActivity"></activity>
+    </application>
 
 </manifest>

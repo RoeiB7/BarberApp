@@ -1,31 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    tools:context=".activities.SignUpActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="24dp"
-            android:src="@drawable/ic_app_icon" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="24dp"
-            android:text="@string/welcome_to_barberapp"
-            android:textColor="@color/black"
+            android:layout_gravity="start"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="80dp"
+            android:text="@string/sign_up"
             android:textSize="36sp"
-            android:textStyle="bold" />
+
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="36dp"
+                android:layout_weight="1"
+                android:hint="@string/first_name"
+                app:boxStrokeColor="#485ABF"
+                app:hintTextColor="#485ABF">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="36dp"
+                android:layout_weight="1"
+                android:hint="@string/last_name"
+                app:boxStrokeColor="#485ABF"
+                app:hintTextColor="#485ABF">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -33,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="36dp"
             android:hint="@string/email"
             app:boxStrokeColor="#485ABF"
@@ -51,7 +98,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
@@ -60,64 +106,50 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="36dp"
             android:hint="@string/password"
-            app:boxStrokeColor="@color/my_blue"
-            app:hintTextColor="@color/my_blue">
+            app:boxStrokeColor="#485ABF"
+            app:hintTextColor="#485ABF">
 
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/sign_in_EDT_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
+                android:inputType="textEmailAddress"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
+
         </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="36dp"
+            android:hint="@string/re_enter_password"
+            app:boxStrokeColor="#485ABF"
+            app:hintTextColor="#485ABF">
 
-            <CheckBox
-                android:id="@+id/sign_in_CBX_rememberMe"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
-                android:buttonTint="@color/my_blue"
-                android:checked="false"
-                android:text="@string/remember_me" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="56dp"
-                android:text="@string/forgot_your_password"
-                android:textColor="@color/my_blue"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
 
-        </LinearLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="42dp"
             android:layout_marginEnd="36dp"
             android:backgroundTint="@color/my_blue"
-            android:text="@string/log_in" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:text="@string/or"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-        
+            android:text="@string/sign_up" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -131,7 +163,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:text="Don't have an account ? "
+                android:text="Already have an account ? "
                 android:textColor="@color/black"
                 android:textSize="17sp" />
 
@@ -139,12 +171,11 @@
                 android:id="@+id/sign_in_LBL_signUp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="@string/sign_up"
+                android:text="@string/log_in"
                 android:textColor="@color/my_blue"
                 android:textSize="17sp" />
 
         </LinearLayout>
-
 
     </LinearLayout>
 
