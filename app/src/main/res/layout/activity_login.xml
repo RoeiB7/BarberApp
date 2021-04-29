@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="ltr"
     android:orientation="vertical">
 
     <LinearLayout
@@ -86,7 +87,8 @@
                 android:layout_marginStart="30dp"
                 android:buttonTint="@color/my_blue"
                 android:checked="false"
-                android:text="@string/remember_me" />
+                android:text="@string/remember_me"
+                android:textStyle="bold" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -94,7 +96,8 @@
                 android:layout_marginStart="56dp"
                 android:text="@string/forgot_your_password"
                 android:textColor="@color/my_blue"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
@@ -107,7 +110,7 @@
             android:layout_marginEnd="36dp"
             android:backgroundTint="@color/my_blue"
             android:text="@string/sign_in"
-            android:textAllCaps="false"/>
+            android:textAllCaps="false" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -127,9 +130,7 @@
             android:layout_marginEnd="36dp"
             android:backgroundTint="#dd4b39"
             android:text="Sign in with Google"
-            android:textAllCaps="false"/>
-
-
+            android:textAllCaps="false" />
 
 
         <LinearLayout
@@ -146,7 +147,8 @@
                 android:layout_gravity="center"
                 android:text="Don't have an account ? "
                 android:textColor="@color/black"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/sign_in_LBL_signUp"
@@ -154,7 +156,8 @@
                 android:layout_height="match_parent"
                 android:text="@string/sign_up"
                 android:textColor="@color/my_blue"
-                android:textSize="17sp" />
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
