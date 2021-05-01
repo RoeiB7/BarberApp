@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="32dp"
-        android:text="@string/treatment_preferences"
+        android:text="@string/search_treatment"
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold" />
