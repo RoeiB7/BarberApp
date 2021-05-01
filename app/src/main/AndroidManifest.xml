@@ -10,6 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BarberApp">
+        <activity android:name=".activities.AppointmentActivity"></activity>
+        <activity android:name=".activities.UserActivity" />
         <activity
             android:name=".activities.LoginActivity"
             android:screenOrientation="portrait">

@@ -12,4 +12,11 @@
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="sign_in">Sign in</string>
+    <string name="my_appointments">My Appointments</string>
+    <string name="new_appointment">New Appointment</string>
+    <string name="select_treatment">Select treatment</string>
+    <string name="treatment_preferences">Treatment Preferences</string>
+    <string name="select_barber">Select barber</string>
+    <string name="contact_number">Enter your contact number</string>
+    <string name="search">Search</string>
 </resources>
