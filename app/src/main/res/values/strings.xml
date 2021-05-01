@@ -19,4 +19,5 @@
     <string name="select_barber">Select barber</string>
     <string name="contact_number">Enter your contact number</string>
     <string name="search">Search</string>
+    <string name="already_have_an_account">Already have an account ? </string>
 </resources>
