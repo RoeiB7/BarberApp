@@ -8,7 +8,7 @@ import android.widget.FrameLayout;
 import com.example.barberapp.R;
 import com.example.barberapp.fragments.CalendarFragment;
 
-public class ContainerActivity extends AppCompatActivity {
+public class TimeStampActivity extends AppCompatActivity {
     private CalendarFragment calendarFragment;
     private FrameLayout container_upper_fragment;
     private FrameLayout container_lower_fragment;
@@ -16,14 +16,16 @@ public class ContainerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_container);
+        setContentView(R.layout.activity_time_stamp);
         findViews();
         calendarFragment = new CalendarFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.container_upper_fragment, calendarFragment).commit();
+        //getSupportFragmentManager().beginTransaction().replace(R.id.container_lower_fragment, hoursFragment).commit();
     }
 
     private void findViews() {
         container_upper_fragment = findViewById(R.id.container_upper_fragment);
         container_lower_fragment = findViewById(R.id.container_lower_fragment);
     }
+
 }
