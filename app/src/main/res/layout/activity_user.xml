@@ -1,54 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layoutDirection="ltr"
-    android:orientation="vertical"
-    tools:context=".activities.UserActivity">
 
-    <ImageView
-        android:id="@+id/user_image"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="24dp"
-        android:src="@drawable/ic_user" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="32dp"
-        android:text="Hi Roei!"
-        android:textColor="@color/black"
-        android:textSize="40sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/user_myAppointments_button"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="36dp"
-        android:backgroundTint="@color/my_blue"
-        android:text="@string/my_appointments"
-        android:textAllCaps="false"
-        android:textSize="24sp" />
+        android:layout_height="match_parent"
+        android:layoutDirection="ltr"
+        android:orientation="vertical"
+        tools:context=".activities.UserActivity">
 
-    <Button
-        android:id="@+id/user_newAppointment_button"
-        android:layout_width="339dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="36dp"
-        android:backgroundTint="@color/my_blue"
-        android:text="@string/new_appointment"
-        android:textAllCaps="false"
-        android:textSize="24sp" />
+        <ImageView
+            android:id="@+id/user_image"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/ic_user" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="32dp"
+            android:text="Hi Roei!"
+            android:textColor="@color/black"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/user_myAppointments_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="36dp"
+            android:backgroundTint="@color/my_blue"
+            android:text="@string/my_appointments"
+            android:textAllCaps="false"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/user_newAppointment_button"
+            android:layout_width="339dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="36dp"
+            android:backgroundTint="@color/my_blue"
+            android:text="@string/new_appointment"
+            android:textAllCaps="false"
+            android:textSize="24sp" />
 
 
-</LinearLayout>
+    </LinearLayout>
+</layout>
