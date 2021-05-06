@@ -1,21 +1,18 @@
 package com.example.barberapp.activities;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.example.barberapp.R;
 import com.example.barberapp.databinding.ActivityAppointmentBinding;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class AppointmentActivity extends AppCompatActivity {
 
@@ -24,7 +21,6 @@ public class AppointmentActivity extends AppCompatActivity {
     private boolean[] selectTreatment;
     private ArrayList<Integer> treatmentsList = new ArrayList<>();
     private String[] treatmentsArray = {"Blow Dry", "Men's Hair Cut", "Beard Trim", "another one"};
-    //private Integer[]
 
 
     @Override
