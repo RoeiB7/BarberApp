@@ -34,20 +34,22 @@
             android:drawablePadding="16dp"
             android:hint="@string/select_treatment"
             android:padding="12dp"
-            android:textColorHint="@color/black" />
+            android:textColorHint="@color/black"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/appointment_select_barber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/appointment_select_treatment"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="56dp"
             android:background="@android:drawable/editbox_background"
             android:drawableEnd="@android:drawable/arrow_down_float"
             android:drawablePadding="16dp"
             android:hint="@string/select_barber"
             android:padding="12dp"
-            android:textColorHint="@color/black" />
+            android:textColorHint="@color/black"
+            android:textStyle="bold" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/contact_number_layout"
@@ -71,6 +73,18 @@
 
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/appointment_time_counter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/appointment_select_treatment"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="12dp"
+            android:text="15 min total"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/appointment_search_button"
