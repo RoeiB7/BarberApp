@@ -7,31 +7,34 @@ import androidx.databinding.DataBindingUtil;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.example.barberapp.R;
 import com.example.barberapp.databinding.ActivityAppointmentBinding;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class AppointmentActivity extends AppCompatActivity {
 
 
     private ActivityAppointmentBinding binding;
     private boolean[] selectTreatment;
-    private ArrayList<Integer> treatmentsList = new ArrayList<>();
+    private ArrayList<Integer> chosenList = new ArrayList<>();
     private String[] treatmentsArray = {"Blow Dry", "Men's Hair Cut", "Beard Trim", "another one"};
-    //private Integer[]
+    private Integer[] treatmentsTime = {20, 30, 10, 40};
+    private int time = 0;
+    private String[] barbersNames = {"Aviv", "Soli", "Benjamin", "Dudu", "Oren", "Stav"};
+    private String chosenBarber;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_appointment);
-
         initViews();
     }
 
@@ -41,11 +44,59 @@ public class AppointmentActivity extends AppCompatActivity {
             startActivity(intent);
         });
         selectTreatment = new boolean[treatmentsArray.length];
-        binding.appointmentSelectTreatment.setOnClickListener(v -> {
-            buildMultiSelect();
+        binding.appointmentSelectTreatment.setOnClickListener(v -> buildMultiSelect());
+        binding.appointmentSelectBarber.setOnClickListener(v -> buildSingleSelect());
+        binding.appointmentContactNumberInput.addTextChangedListener(new TextWatcher() {
+            int keyDel;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.appointmentContactNumberInput.setOnKeyListener((v, keyCode, event) -> {
+
+                    if (keyCode == KeyEvent.KEYCODE_DEL)
+                        keyDel = 1;
+                    return false;
+                });
+
+                if (keyDel == 0) {
+                    int len = binding.appointmentContactNumberInput.getText().length();
+                    if (len == 3) {
+                        binding.appointmentContactNumberInput.setText(binding.appointmentContactNumberInput.getText().toString() + " - ");
+                        binding.appointmentContactNumberInput.setSelection(binding.appointmentContactNumberInput.getText().length());
+                    }
+                } else {
+                    keyDel = 0;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
         });
 
+    }
 
+    private void buildSingleSelect() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                AppointmentActivity.this
+        );
+        builder.setTitle("Select Barber");
+        builder.setCancelable(false);
+        builder.setSingleChoiceItems(barbersNames, 0, (dialog, which) -> {
+            chosenBarber = barbersNames[which];
+
+        });
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            binding.appointmentSelectBarber.setText(chosenBarber);
+        });
+        builder.setNegativeButton("CANCEL", null);
+        builder.show();
     }
 
     private void buildMultiSelect() {
@@ -54,16 +105,16 @@ public class AppointmentActivity extends AppCompatActivity {
         );
         builder.setTitle("Select Treatment - Up to 3 ");
         builder.setCancelable(false);
-
         builder.setMultiChoiceItems(treatmentsArray, selectTreatment, new DialogInterface.OnMultiChoiceClickListener() {
             int count = 0;
 
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 if (isChecked) {
-                    if (!treatmentsList.contains(which))
-                        if (treatmentsList.size() < 3) {
-                            treatmentsList.add(which);
+                    if (!chosenList.contains(which))
+                        if (chosenList.size() < 3) {
+                            chosenList.add(which);
+                            time = time + treatmentsTime[which];
                             selectTreatment[which] = true;
                         } else {
                             count--;
@@ -71,34 +122,48 @@ public class AppointmentActivity extends AppCompatActivity {
                             selectTreatment[which] = false;
                             Toast.makeText(getApplicationContext(), "you can't add more", Toast.LENGTH_SHORT).show();
                         }
-                } else if (treatmentsList.contains(which)) {
-                    treatmentsList.remove(which);
+                } else if (chosenList.contains(which)) {
+                    chosenList.remove(chosenList.indexOf(which));
+                    time = time - treatmentsTime[which];
                     selectTreatment[which] = false;
                 }
             }
         });
 
-        builder.setPositiveButton("OK", (dialog, which) ->
-                writeTreatment());
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            if (time == 0) {
+                binding.appointmentTimeCounter.setVisibility(View.GONE);
+
+            } else {
+                binding.appointmentTimeCounter.setVisibility(View.VISIBLE);
+            }
+            binding.appointmentTimeCounter.setText(time + " minutes total");
+            writeTreatment();
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+            binding.appointmentTimeCounter.setVisibility(View.GONE);
+            dialog.dismiss();
+        });
 
         builder.setNeutralButton("Clear All", (dialog, which) ->
 
         {
             for (int i = 0; i < selectTreatment.length; i++) {
                 selectTreatment[i] = false;
-                treatmentsList.clear();
+                chosenList.clear();
                 binding.appointmentSelectTreatment.setText("");
             }
+            time = 0;
+            binding.appointmentTimeCounter.setVisibility(View.GONE);
         });
         builder.show();
     }
 
     private void writeTreatment() {
         StringBuilder stringBuilder = new StringBuilder();
-        for (int j = 0; j < treatmentsList.size(); j++) {
-            stringBuilder.append(treatmentsArray[treatmentsList.get(j)]);
-            if (j != treatmentsList.size() - 1) {
+        for (int j = 0; j < chosenList.size(); j++) {
+            stringBuilder.append(treatmentsArray[chosenList.get(j)]);
+            if (j != chosenList.size() - 1) {
                 stringBuilder.append(", ");
             }
         }
