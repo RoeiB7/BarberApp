@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.barberapp.R;
 import com.example.barberapp.databinding.ActivityAppointmentBinding;
+import com.example.barberapp.utils.AppManager;
 
 import java.util.ArrayList;
 
@@ -29,25 +30,36 @@ public class AppointmentActivity extends AppCompatActivity {
     private int time = 0;
     private String[] barbersNames = {"Aviv", "Soli", "Benjamin", "Dudu", "Oren", "Stav"};
     private String chosenBarber;
+    private boolean isPhoneValid = false;
+    private AppManager manager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_appointment);
+        manager = new AppManager(this);
         initViews();
     }
 
     private void initViews() {
         binding.appointmentSearchButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, TimeStampActivity.class);
-            startActivity(intent);
+            if (isPhoneValid) {
+                Intent intent = new Intent(this, TimeStampActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Error! please check validation of contact number", Toast.LENGTH_LONG).show();
+
+            }
+
+
         });
         selectTreatment = new boolean[treatmentsArray.length];
         binding.appointmentSelectTreatment.setOnClickListener(v -> buildMultiSelect());
         binding.appointmentSelectBarber.setOnClickListener(v -> buildSingleSelect());
         binding.appointmentContactNumberInput.addTextChangedListener(new TextWatcher() {
             int keyDel;
+
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -56,6 +68,7 @@ public class AppointmentActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
                 binding.appointmentContactNumberInput.setOnKeyListener((v, keyCode, event) -> {
 
                     if (keyCode == KeyEvent.KEYCODE_DEL)
@@ -76,6 +89,8 @@ public class AppointmentActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                isPhoneValid = manager.validatePhone(AppointmentActivity.this,
+                        binding.appointmentContactNumberInput, binding.appointmentContactNumberLayout);
 
             }
         });

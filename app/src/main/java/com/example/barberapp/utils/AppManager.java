@@ -47,5 +47,18 @@ public class AppManager {
         return true;
     }
 
+    public boolean validatePhone(AppCompatActivity activity, TextInputEditText input, TextInputLayout layout) {
+        int len = input.getText().toString().trim().length();
+        if (len != 13) {
+            layout.setError("Your contact number must contain 10 digits");
+            activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+            return false;
+        } else {
+            layout.setErrorEnabled(false);
+            return true;
+        }
+
+    }
+
 
 }

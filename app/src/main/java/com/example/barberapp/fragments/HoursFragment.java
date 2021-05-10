@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.barberapp.R;
+import com.example.barberapp.activities.TimeStampActivity;
 import com.example.barberapp.databinding.FragmentHoursBinding;
 import com.example.barberapp.utils.AdapterHours;
 
@@ -47,6 +48,10 @@ public class HoursFragment extends Fragment {
         }
 
         adapter = new AdapterHours(view.getContext(), hours);
+
+        adapter.setClickListener((view, position) -> ((TimeStampActivity) getActivity()).openBooking());
+
+
         binding.hoursList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         binding.hoursList.setAdapter(adapter);
 

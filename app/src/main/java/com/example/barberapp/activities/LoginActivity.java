@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.loginButton.setOnClickListener(v -> {
 
             if (isEmailValid && isPasswordValid) {
-
+                //todo:validate email and password with firebase
 //                fAuth.signInWithEmailAndPassword(binding.loginEmailInput.getText().toString().trim(), binding.loginPasswordInput.getText().toString().trim())
 //
 //                        .addOnSuccessListener(authResult -> {

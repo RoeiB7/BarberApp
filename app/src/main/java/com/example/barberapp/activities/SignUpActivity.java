@@ -36,7 +36,7 @@ public class SignUpActivity extends AppCompatActivity {
     private void initViews() {
         binding.signUpButton.setOnClickListener(v -> {
             if (isNameValid && isEmailValid && isPasswordValid && isRePasswordValid) {
-                //save to Firebase
+                //todo: add user to Firebase
                 Intent intent = new Intent(this, UserActivity.class);
                 startActivity(intent);
                 finish();
@@ -123,7 +123,6 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private boolean validateRePassword() {
-        //todo:check also after password change
         if (binding.signUpRePasswordInput.getText().toString().trim().equals(binding.signUpPasswordInput.getText().toString().trim())) {
             binding.signUpRePasswordLayout.setErrorEnabled(false);
             return true;
