@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -12,6 +13,9 @@ import com.example.barberapp.R;
 import com.example.barberapp.databinding.ActivityTimeStampBinding;
 import com.example.barberapp.fragments.CalendarFragment;
 import com.example.barberapp.fragments.HoursFragment;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class TimeStampActivity extends AppCompatActivity {
 
@@ -31,19 +35,28 @@ public class TimeStampActivity extends AppCompatActivity {
     }
 
     public void openBooking() {
+        String barberName = getIntent().getStringExtra("barber");
+        String contactNumber = getIntent().getStringExtra("phone");
+        ArrayList<String> treatments = getIntent().getStringArrayListExtra("treatments");
+        String treatmentsList = Arrays.toString(treatments.toArray()).replace("[", "").replace("]", "");
+
         AlertDialog.Builder builder = new AlertDialog.Builder(
                 this
         );
-        builder.setTitle("Book appointment");
-        builder.setMessage("Are you sure you want to book?");
+        builder.setTitle("Appointment Summary");
+        builder.setMessage("Treatments: " + treatmentsList + "\n\n"
+                + "Barber: " + barberName + "\n\n"
+                + "Contact Number: " + contactNumber + "\n\n"
+                + "Date & Time: ");
         builder.setCancelable(false);
-        builder.setPositiveButton("Yes", (dialog, which) -> {
-            //todo:get treatments, barber name, contact number from Appointment Activity to here
+        builder.setPositiveButton("Book", (dialog, which) -> {
             //todo:get date and time from Calendar & Hours fragments
             //todo:save to firebase for my user - treatments, barber name, contact number, date, time for each user
-            Toast.makeText(this, "appointment booked!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Appointment booked!", Toast.LENGTH_SHORT).show();
         });
-        builder.setNegativeButton("No", null);
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+            Toast.makeText(this, "Appointment canceled!", Toast.LENGTH_SHORT).show();
+        });
         builder.show();
     }
 

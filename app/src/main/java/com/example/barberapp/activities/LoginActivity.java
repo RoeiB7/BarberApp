@@ -124,6 +124,9 @@ public class LoginActivity extends AppCompatActivity {
         if (!email.equals("NA") && !password.equals("NA")) {
             binding.loginEmailInput.setText(email);
             binding.loginPasswordInput.setText(password);
+            isEmailValid = manager.validateEmail(this, binding.loginEmailInput, binding.loginEmailLayout);
+            isPasswordValid = manager.validatePassword(this, binding.loginPasswordInput, binding.loginPasswordLayout);
+
         }
 
     }

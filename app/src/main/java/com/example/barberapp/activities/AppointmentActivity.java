@@ -32,7 +32,7 @@ public class AppointmentActivity extends AppCompatActivity {
     private String chosenBarber;
     private boolean isPhoneValid = false;
     private AppManager manager;
-
+    private ArrayList<String> chosenTreatments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +46,9 @@ public class AppointmentActivity extends AppCompatActivity {
         binding.appointmentSearchButton.setOnClickListener(v -> {
             if (isPhoneValid) {
                 Intent intent = new Intent(this, TimeStampActivity.class);
+                intent.putExtra("barber", chosenBarber);
+                intent.putExtra("phone", binding.appointmentContactNumberInput.getText().toString().trim());
+                intent.putStringArrayListExtra("treatments", chosenTreatments);
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Error! please check validation of contact number", Toast.LENGTH_LONG).show();
@@ -120,6 +123,7 @@ public class AppointmentActivity extends AppCompatActivity {
         );
         builder.setTitle("Select Treatment - Up to 3 ");
         builder.setCancelable(false);
+
         builder.setMultiChoiceItems(treatmentsArray, selectTreatment, new DialogInterface.OnMultiChoiceClickListener() {
             int count = 0;
 
@@ -178,6 +182,7 @@ public class AppointmentActivity extends AppCompatActivity {
         StringBuilder stringBuilder = new StringBuilder();
         for (int j = 0; j < chosenList.size(); j++) {
             stringBuilder.append(treatmentsArray[chosenList.get(j)]);
+            chosenTreatments.add(treatmentsArray[chosenList.get(j)]);
             if (j != chosenList.size() - 1) {
                 stringBuilder.append(", ");
             }
