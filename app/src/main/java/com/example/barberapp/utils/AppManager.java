@@ -7,6 +7,8 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.barberapp.R;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class AppManager {
     private boolean visibility = false;
@@ -17,31 +19,19 @@ public class AppManager {
 
     }
 
-    public boolean showEye(EditText editText) {
+    public boolean showEye(TextInputLayout layout, TextInputEditText editText) {
         if (isEmpty(editText)) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility, 0);
+            layout.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE);
             return true;
         } else {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            layout.setEndIconMode(TextInputLayout.END_ICON_CLEAR_TEXT);
             return false;
         }
     }
 
 
-    public void switchPasswordVisibility(EditText editText) {
-        if (!visibility) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_invisible, 0);
-            editText.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            visibility = true;
-        } else {
-            editText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_visibility, 0);
-            editText.setTransformationMethod(PasswordTransformationMethod.getInstance());
-            visibility = false;
-        }
-    }
-
-    public boolean isEmpty(EditText etText) {
-        return etText.getText().toString().trim().length() != 0;
+    public boolean isEmpty(TextInputEditText editText) {
+        return editText.getText().toString().trim().length() != 0;
     }
 
 

@@ -24,9 +24,6 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding;
     private final String PASSWORD = "password";
     private final String EMAIL = "email";
-    private boolean eye = false;
-    private boolean crossEye = false;
-    private final int DRAWABLE_RIGHT = 2;
     private AppManager manager;
 
     @Override
@@ -44,7 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.loginButton.setOnClickListener(v -> {
             if (!manager.isEmpty(binding.loginEmailInput)) {
                 binding.loginEmailInput.setError("Email is required");
-                Log.d("ptt","email is empty");
+                Log.d("ptt", "email is empty");
                 return;
             }
 
@@ -82,45 +79,8 @@ public class LoginActivity extends AppCompatActivity {
                 SPManager.getInstance().putString(PASSWORD, pass);
             }
         });
-        binding.loginPasswordInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                if (count != before && !crossEye) {
-                    eye = manager.showEye(binding.loginPasswordInput);
-                    crossEye = false;
-                } else {
-                    crossEye = true;
-                    if (s.toString().isEmpty()) {
-                        eye = manager.showEye(binding.loginPasswordInput);
-                        binding.loginPasswordInput.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                        crossEye = false;
-                    }
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-        binding.loginPasswordInput.setOnTouchListener((v, event) -> {
-            if (eye) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (event.getX() >= (binding.loginPasswordInput.getWidth() - binding.loginPasswordInput.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
-                        manager.switchPasswordVisibility(binding.loginPasswordInput);
-                        return true;
-                    }
-                }
-            }
-            return false;
-        });
-
-
+        binding.loginPasswordInput.setListen
     }
 
 
