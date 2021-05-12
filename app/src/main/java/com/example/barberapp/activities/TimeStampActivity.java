@@ -45,14 +45,13 @@ public class TimeStampActivity extends AppCompatActivity {
                 this
         );
         builder.setTitle("Appointment Summary");
-        builder.setMessage("Treatments: " + treatmentsList + "\n\n"
+        builder.setMessage("\n" + "Treatments: " + treatmentsList + "\n\n"
                 + "Barber: " + barberName + "\n\n"
                 + "Contact Number: " + contactNumber + "\n\n"
                 + "Date: " + chosenDate + "\n\n"
                 + "Time: " + chosenHour);
         builder.setCancelable(false);
         builder.setPositiveButton("Book", (dialog, which) -> {
-            //todo:get date and time from Calendar & Hours fragments
             //todo:save to firebase for my user - treatments, barber name, contact number, date, time for each user
             Toast.makeText(this, "Appointment booked!", Toast.LENGTH_SHORT).show();
         });
