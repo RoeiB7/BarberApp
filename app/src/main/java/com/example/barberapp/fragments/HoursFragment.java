@@ -49,11 +49,15 @@ public class HoursFragment extends Fragment {
 
         adapter = new AdapterHours(view.getContext(), hours);
 
-        adapter.setClickListener((view, position) -> ((TimeStampActivity) getActivity()).openBooking());
+        adapter.setClickListener((view, position) -> {
+            ((TimeStampActivity) getActivity()).getHour(hours.get(position));
+            ((TimeStampActivity) getActivity()).openBooking();
+        });
 
 
         binding.hoursList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         binding.hoursList.setAdapter(adapter);
+
 
     }
 

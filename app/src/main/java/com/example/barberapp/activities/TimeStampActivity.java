@@ -22,6 +22,7 @@ public class TimeStampActivity extends AppCompatActivity {
     private CalendarFragment calendarFragment;
     private HoursFragment hoursFragment;
     private ActivityTimeStampBinding binding;
+    private String chosenHour, chosenDate;
 
 
     @Override
@@ -47,7 +48,8 @@ public class TimeStampActivity extends AppCompatActivity {
         builder.setMessage("Treatments: " + treatmentsList + "\n\n"
                 + "Barber: " + barberName + "\n\n"
                 + "Contact Number: " + contactNumber + "\n\n"
-                + "Date & Time: ");
+                + "Date: " + chosenDate + "\n\n"
+                + "Time: " + chosenHour);
         builder.setCancelable(false);
         builder.setPositiveButton("Book", (dialog, which) -> {
             //todo:get date and time from Calendar & Hours fragments
@@ -58,6 +60,14 @@ public class TimeStampActivity extends AppCompatActivity {
             Toast.makeText(this, "Appointment canceled!", Toast.LENGTH_SHORT).show();
         });
         builder.show();
+    }
+
+    public void getDate(String date) {
+        chosenDate = date;
+    }
+
+    public void getHour(String hour) {
+        chosenHour = hour;
     }
 
 
