@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "800557508130",
+    "project_id": "barberapp-dc179",
+    "storage_bucket": "barberapp-dc179.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:800557508130:android:4778a3fd6fa6f610c58c7b",
+        "android_client_info": {
+          "package_name": "com.example.barberapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "800557508130-akflqjcfda3p472j9a5lg9phpikfaunf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtLYtJ7n9QQiDgotkNcVgj0sUm-tzzdvQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "800557508130-akflqjcfda3p472j9a5lg9phpikfaunf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

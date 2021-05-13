@@ -9,6 +9,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         SPManager.init(this);
+        FBManager.init();
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
     }

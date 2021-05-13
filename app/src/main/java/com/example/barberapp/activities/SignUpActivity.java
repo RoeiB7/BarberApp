@@ -1,5 +1,6 @@
 package com.example.barberapp.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -14,6 +15,10 @@ import android.widget.Toast;
 import com.example.barberapp.R;
 import com.example.barberapp.databinding.ActivitySignUpBinding;
 import com.example.barberapp.utils.AppManager;
+import com.example.barberapp.utils.FBManager;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -29,17 +34,21 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up);
         manager = new AppManager(this);
-
         initViews();
     }
 
     private void initViews() {
         binding.signUpButton.setOnClickListener(v -> {
             if (isNameValid && isEmailValid && isPasswordValid && isRePasswordValid) {
+                FBManager.getInstance().getFirebaseAuth().createUserWithEmailAndPassword(binding.signUpEmailInput.getText().toString().trim(), binding.signUpPasswordInput.getText().toString().trim())
+                        .addOnSuccessListener(authResult -> {
+                            Intent intent = new Intent(this, UserActivity.class);
+                            startActivity(intent);
+                            finish();
+                        })
+                        .addOnFailureListener(e -> Toast.makeText(this, "Error! " + e.getMessage(), Toast.LENGTH_LONG).show());
                 //todo: add user to Firebase
-                Intent intent = new Intent(this, UserActivity.class);
-                startActivity(intent);
-                finish();
+
             } else {
                 Toast.makeText(this, "Error! please check validation of fields", Toast.LENGTH_LONG).show();
 
