@@ -13,6 +13,7 @@ import androidx.databinding.DataBindingUtil;
 import com.example.barberapp.R;
 import com.example.barberapp.databinding.ActivityLoginBinding;
 import com.example.barberapp.utils.AppManager;
+import com.example.barberapp.utils.FBManager;
 import com.example.barberapp.utils.SPManager;
 
 public class LoginActivity extends AppCompatActivity {
@@ -41,18 +42,16 @@ public class LoginActivity extends AppCompatActivity {
 
             if (isEmailValid && isPasswordValid) {
                 //todo:validate email and password with firebase
-//                fAuth.signInWithEmailAndPassword(binding.loginEmailInput.getText().toString().trim(), binding.loginPasswordInput.getText().toString().trim())
-//
-//                        .addOnSuccessListener(authResult -> {
-//                            manager.moveToNav(this);
-//                        })
-//
-//                        .addOnFailureListener(e -> Toast.makeText(this, "Error! " + e.getMessage(), Toast.LENGTH_SHORT).show());
-//
+                FBManager.getInstance().getFirebaseAuth().signInWithEmailAndPassword(binding.loginEmailInput.getText().toString().trim(), binding.loginPasswordInput.getText().toString().trim())
 
-                Intent intent = new Intent(this, UserActivity.class);
-                startActivity(intent);
-                finish();
+                        .addOnSuccessListener(authResult -> {
+                            Intent intent = new Intent(this, UserActivity.class);
+                            startActivity(intent);
+                            finish();
+                        })
+
+                        .addOnFailureListener(e -> Toast.makeText(this, "Error! " + e.getMessage(), Toast.LENGTH_LONG).show());
+
             } else {
                 Toast.makeText(this, "Error! please check validation of email & password", Toast.LENGTH_LONG).show();
             }
