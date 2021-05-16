@@ -37,7 +37,7 @@ public class TimeStampActivity extends AppCompatActivity {
 
     public void openBooking() {
         String barberName = getIntent().getStringExtra("barber");
-        String contactNumber = getIntent().getStringExtra("phone");
+        String contactNumber = "";//todo: get contact number from firebase
         ArrayList<String> treatments = getIntent().getStringArrayListExtra("treatments");
         String treatmentsList = Arrays.toString(treatments.toArray()).replace("[", "").replace("]", "");
 
@@ -52,12 +52,10 @@ public class TimeStampActivity extends AppCompatActivity {
                 + "Time: " + chosenHour);
         builder.setCancelable(false);
         builder.setPositiveButton("Book", (dialog, which) -> {
-            //todo:save to firebase for my user - treatments, barber name, contact number, date, time for each user
+            //todo:save to firebase for my user - treatments, barber name, date, time for each user
             Toast.makeText(this, "Appointment booked!", Toast.LENGTH_SHORT).show();
         });
-        builder.setNegativeButton("Cancel", (dialog, which) -> {
-            Toast.makeText(this, "Appointment canceled!", Toast.LENGTH_SHORT).show();
-        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> Toast.makeText(this, "Appointment canceled!", Toast.LENGTH_SHORT).show());
         builder.show();
     }
 

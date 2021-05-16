@@ -41,7 +41,6 @@ public class LoginActivity extends AppCompatActivity {
         binding.loginButton.setOnClickListener(v -> {
 
             if (isEmailValid && isPasswordValid) {
-                //todo:validate email and password with firebase
                 FBManager.getInstance().getFirebaseAuth().signInWithEmailAndPassword(binding.loginEmailInput.getText().toString().trim(), binding.loginPasswordInput.getText().toString().trim())
 
                         .addOnSuccessListener(authResult -> {
