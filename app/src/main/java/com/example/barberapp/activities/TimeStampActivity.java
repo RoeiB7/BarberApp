@@ -1,11 +1,13 @@
 package com.example.barberapp.activities;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -13,6 +15,12 @@ import com.example.barberapp.R;
 import com.example.barberapp.databinding.ActivityTimeStampBinding;
 import com.example.barberapp.fragments.CalendarFragment;
 import com.example.barberapp.fragments.HoursFragment;
+import com.example.barberapp.objects.User;
+import com.example.barberapp.utils.FBManager;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,11 +44,11 @@ public class TimeStampActivity extends AppCompatActivity {
     }
 
     public void openBooking() {
+        String contactNumber = User.getInstance().getContactNumber();
         String barberName = getIntent().getStringExtra("barber");
-        String contactNumber = "";//todo: get contact number from firebase
         ArrayList<String> treatments = getIntent().getStringArrayListExtra("treatments");
         String treatmentsList = Arrays.toString(treatments.toArray()).replace("[", "").replace("]", "");
-
+        Log.d("ptt", "here");
         AlertDialog.Builder builder = new AlertDialog.Builder(
                 this
         );

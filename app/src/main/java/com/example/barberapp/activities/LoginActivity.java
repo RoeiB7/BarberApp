@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,9 +13,13 @@ import androidx.databinding.DataBindingUtil;
 
 import com.example.barberapp.R;
 import com.example.barberapp.databinding.ActivityLoginBinding;
+import com.example.barberapp.objects.User;
 import com.example.barberapp.utils.AppManager;
 import com.example.barberapp.utils.FBManager;
 import com.example.barberapp.utils.SPManager;
+import com.google.firebase.firestore.DocumentReference;
+
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,8 +38,9 @@ public class LoginActivity extends AppCompatActivity {
         manager = new AppManager(this);
         checkCredentials();
         initViews();
-    }
 
+        //todo: login with google
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     private void initViews() {
@@ -43,11 +49,7 @@ public class LoginActivity extends AppCompatActivity {
             if (isEmailValid && isPasswordValid) {
                 FBManager.getInstance().getFirebaseAuth().signInWithEmailAndPassword(binding.loginEmailInput.getText().toString().trim(), binding.loginPasswordInput.getText().toString().trim())
 
-                        .addOnSuccessListener(authResult -> {
-                            Intent intent = new Intent(this, UserActivity.class);
-                            startActivity(intent);
-                            finish();
-                        })
+                        .addOnSuccessListener(authResult -> getUserData())
 
                         .addOnFailureListener(e -> Toast.makeText(this, "Error! " + e.getMessage(), Toast.LENGTH_LONG).show());
 
@@ -128,4 +130,32 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
+
+    private void getUserData() {
+        final DocumentReference docRef = FBManager.getInstance().getFirebaseFirestore()
+                .collection("users")
+                .document(FBManager.getInstance().getUserID());
+        docRef.addSnapshotListener((snapshot, e) -> {
+            if (e != null) {
+                Log.d("ptt", "user data listen failed.");
+                return;
+            }
+
+            if (snapshot != null && snapshot.exists()) {
+                Map<String, Object> userData = snapshot.getData();
+                User.getInstance().setFirstName((String) userData.get("First Name"));
+                User.getInstance().setLastName((String) userData.get("Last Name"));
+                User.getInstance().setEmail((String) userData.get("Email"));
+                User.getInstance().setContactNumber((String) userData.get("Contact Number"));
+                User.getInstance().setImageUri((String) userData.get("Profile Pic"));
+
+                manager.moveToUserActivity(this);
+            } else {
+                Log.d("ptt", "user data: null");
+            }
+        });
+
+    }
+
+
 }

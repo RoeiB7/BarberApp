@@ -20,4 +20,5 @@
     <string name="contact_number">Contact number</string>
     <string name="search">Search</string>
     <string name="already_have_an_account">Already have an account ? </string>
+    <string name="upload_image">Upload Image </string>
 </resources>

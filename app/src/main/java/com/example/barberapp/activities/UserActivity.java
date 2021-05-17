@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.barberapp.R;
 import com.example.barberapp.databinding.ActivityUserBinding;
+import com.example.barberapp.objects.User;
 
 public class UserActivity extends AppCompatActivity {
 
@@ -23,7 +26,9 @@ public class UserActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-
+        binding.userName.setText("Hi " + User.getInstance().getFirstName() + "!");
+        Glide.with(this).load(User.getInstance().getImageUri()).apply(RequestOptions.circleCropTransform()).into(binding.userImage);
+        //todo: check why image getting bigger
         binding.userNewAppointmentButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, AppointmentActivity.class);
             startActivity(intent);

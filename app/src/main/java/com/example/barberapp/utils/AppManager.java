@@ -1,9 +1,11 @@
 package com.example.barberapp.utils;
 
+import android.content.Intent;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.barberapp.activities.UserActivity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -59,6 +61,13 @@ public class AppManager {
         }
 
     }
+
+    public void moveToUserActivity(AppCompatActivity activity) {
+        Intent intent = new Intent(activity, UserActivity.class);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
 
 
 }
