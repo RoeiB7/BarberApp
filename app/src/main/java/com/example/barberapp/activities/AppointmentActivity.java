@@ -17,7 +17,9 @@ import com.example.barberapp.R;
 import com.example.barberapp.databinding.ActivityAppointmentBinding;
 import com.example.barberapp.utils.AppManager;
 
+import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class AppointmentActivity extends AppCompatActivity {
 
@@ -25,15 +27,25 @@ public class AppointmentActivity extends AppCompatActivity {
     private ActivityAppointmentBinding binding;
     private boolean[] selectTreatment;
     private ArrayList<Integer> chosenList = new ArrayList<>();
-    private String[] treatmentsArray = {"Blow Dry", "Men's Hair Cut", "Beard Trim", "another one"};
-    private Integer[] treatmentsTime = {20, 30, 10, 40};
-    private int time = 0;
-    private String[] barbersNames = {"Aviv", "Soli", "Benjamin", "Dudu", "Oren", "Stav"};
+    private String[] treatmentsArray = {
+            "Blow Dry",
+            "Men's Hair Cut",
+            "Beard Trim",
+            "Keratin Straightening",
+            "Extensions",
+            "Kids Cuts",
+            "Ladies Dry Trim",
+            "Full Highlights",
+            "Partial Highlights",
+            "Ombre hair Dying"
+    };
+    private Integer[] treatmentsTime = {30, 30, 10, 120, 60, 20, 60, 180, 120, 180};
+    private long time = 0;
+    private String[] barbersNames = {"Aviv", "Soli", "Oren"};
     private String chosenBarber;
     private AppManager manager;
     private ArrayList<String> chosenTreatments = new ArrayList<>();
 
-    //todo: add more treatments
     //todo: add contact number option if no contact number found in FB
 
     @Override
@@ -116,11 +128,23 @@ public class AppointmentActivity extends AppCompatActivity {
             } else {
                 binding.appointmentTimeCounter.setVisibility(View.VISIBLE);
             }
-            binding.appointmentTimeCounter.setText(time + " minutes total");
+
+            long timeSec = time * 60;
+            int hours = (int) timeSec / 3600;
+            int temp = (int) timeSec - hours * 3600;
+            int mins = temp / 60;
+
+            String hm = String.format(Locale.ENGLISH, "%02dh : %02dm", hours, mins);
+            binding.appointmentTimeCounter.setText(hm + " total");
             writeTreatment();
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> {
-            binding.appointmentTimeCounter.setVisibility(View.GONE);
+            if (time == 0) {
+                binding.appointmentTimeCounter.setVisibility(View.GONE);
+
+            } else {
+                binding.appointmentTimeCounter.setVisibility(View.VISIBLE);
+            }
             dialog.dismiss();
         });
 
