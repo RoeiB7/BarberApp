@@ -31,12 +31,12 @@
             android:layout_below="@+id/appointment_treatment_preferences"
             android:layout_marginTop="72dp"
             android:background="@android:drawable/editbox_background"
-            android:drawableEnd="@android:drawable/arrow_down_float"
             android:drawablePadding="16dp"
             android:hint="@string/select_treatment"
             android:padding="12dp"
             android:textColorHint="@color/black"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:drawableEndCompat="@android:drawable/arrow_down_float" />
 
         <TextView
             android:id="@+id/appointment_select_barber"
@@ -51,7 +51,6 @@
             android:textColorHint="@color/black"
             android:textStyle="bold"
             app:drawableEndCompat="@android:drawable/arrow_down_float" />
-
 
 
         <TextView

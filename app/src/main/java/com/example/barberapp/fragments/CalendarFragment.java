@@ -32,17 +32,18 @@ public class CalendarFragment extends Fragment {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_calendar, container, false);
         view = binding.getRoot();
+
         binding.calendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             month++;
             curDate = dayOfMonth + "/" + month + "/" + year;
 
-            ((TimeStampActivity) getActivity()).getDate(curDate);
+            ((TimeStampActivity) getActivity()).getDate(curDate, binding.calendar.getDate());
         });
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         String selectedDate = sdf.format(new Date(binding.calendar.getDate()));
-        ((TimeStampActivity) getActivity()).getDate(selectedDate);
-
+        ((TimeStampActivity) getActivity()).getDate(selectedDate, binding.calendar.getDate());
+        binding.calendar.setMinDate(binding.calendar.getDate());
 
         return view;
     }

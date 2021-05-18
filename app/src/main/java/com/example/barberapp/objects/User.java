@@ -18,16 +18,17 @@ public class User {
         return instance;
     }
 
-
-    public String getFirstName() {
-        return firstName;
-    }
-
     public static void init() {
         if (instance == null) {
             instance = new User();
         }
     }
+
+
+    public String getFirstName() {
+        return firstName;
+    }
+
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;

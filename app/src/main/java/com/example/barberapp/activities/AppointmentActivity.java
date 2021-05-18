@@ -33,6 +33,9 @@ public class AppointmentActivity extends AppCompatActivity {
     private AppManager manager;
     private ArrayList<String> chosenTreatments = new ArrayList<>();
 
+    //todo: add more treatments
+    //todo: add contact number option if no contact number found in FB
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

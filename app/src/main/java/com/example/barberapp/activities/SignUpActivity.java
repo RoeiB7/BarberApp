@@ -35,7 +35,6 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean isPasswordValid = false;
     private boolean isNameValid = false;
     private boolean isEmailValid = false;
-    private boolean isRePasswordValid = false;
     private boolean isPhoneValid = false;
     private AppManager manager;
     private static final int PICK_IMAGE_REQUEST = 1;
@@ -53,7 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void initViews() {
         binding.signUpButton.setOnClickListener(v -> {
-            if (isNameValid && isEmailValid && isPhoneValid && isPasswordValid && isRePasswordValid) {
+            if (isNameValid && isEmailValid && isPhoneValid && isPasswordValid) {
                 User.getInstance().setFirstName(binding.signUpFNameInput.getText().toString().trim());
                 User.getInstance().setLastName(binding.signUpLNameInput.getText().toString().trim());
                 User.getInstance().setEmail(binding.signUpEmailInput.getText().toString().trim());
@@ -128,22 +127,6 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
-        binding.signUpRePasswordInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                isRePasswordValid = validateRePassword();
-            }
-        });
 
         binding.signUpContactNumberInput.addTextChangedListener(new TextWatcher() {
             int keyDel;
@@ -205,16 +188,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    private boolean validateRePassword() {
-        if (binding.signUpRePasswordInput.getText().toString().trim().equals(binding.signUpPasswordInput.getText().toString().trim())) {
-            binding.signUpRePasswordLayout.setErrorEnabled(false);
-            return true;
-        } else {
-            binding.signUpRePasswordLayout.setError("Re-password must be identical to password");
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-            return false;
-        }
-    }
 
     private boolean validateName() {
         if (binding.signUpFNameInput.getText().toString().trim().length() < 2) {

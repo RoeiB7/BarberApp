@@ -33,6 +33,8 @@ public class HoursFragment extends Fragment {
         view = binding.getRoot();
         createList();
         return view;
+        //todo: sync hours with already selected hours
+
     }
 
     private void createList() {

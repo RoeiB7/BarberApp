@@ -36,10 +36,17 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         manager = new AppManager(this);
-        checkCredentials();
+
+        if (FBManager.getInstance().getFirebaseAuth().getCurrentUser() != null && checkCredentials()) {
+            getUserData();
+        }
+
         initViews();
 
         //todo: login with google
+        //todo: forgot password
+        //todo: add splash screen with animation
+        //todo: login with admin credentials open admin page with all admin options
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -114,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    private void checkCredentials() {
+    private boolean checkCredentials() {
 //        SPManager.getInstance().removeKey(EMAIL);
 //        SPManager.getInstance().removeKey(PASSWORD);
 
@@ -126,7 +133,10 @@ public class LoginActivity extends AppCompatActivity {
             binding.loginPasswordInput.setText(password);
             isEmailValid = manager.validateEmail(this, binding.loginEmailInput, binding.loginEmailLayout);
             isPasswordValid = manager.validatePassword(this, binding.loginPasswordInput, binding.loginPasswordLayout);
+            return true;
 
+        } else {
+            return false;
         }
 
     }
