@@ -7,9 +7,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -23,12 +23,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 
@@ -52,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         manager = new AppManager(this);
+        setGoogleButton();
 
         if (FBManager.getInstance().getFirebaseAuth().getCurrentUser() != null) {
             getUserData();
@@ -286,4 +285,20 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> Toast.makeText(this, "Failed to create user! Please try again", Toast.LENGTH_LONG).show());
 
     }
+
+    protected void setGoogleButton() {
+        // Find the TextView that is inside of the SignInButton and set its text
+        for (int i = 0; i < binding.signInBtn.getChildCount(); i++) {
+            View v = binding.signInBtn.getChildAt(i);
+
+            if (v instanceof TextView) {
+                TextView tv = (TextView) v;
+                tv.setText(R.string.sign_in_with_google);
+                tv.setTextSize(16);
+                tv.setPadding(0, 0, 0, 0);
+                return;
+            }
+        }
+    }
+
 }

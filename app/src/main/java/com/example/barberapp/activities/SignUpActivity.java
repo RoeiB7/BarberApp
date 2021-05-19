@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -22,6 +24,7 @@ import com.example.barberapp.databinding.ActivitySignUpBinding;
 import com.example.barberapp.objects.User;
 import com.example.barberapp.utils.AppManager;
 import com.example.barberapp.utils.FBManager;
+import com.google.android.gms.common.SignInButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.storage.StorageReference;
 
@@ -261,6 +264,8 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
     }
+
+
 
 
 }
