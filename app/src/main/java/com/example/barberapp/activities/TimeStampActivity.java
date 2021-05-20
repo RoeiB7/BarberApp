@@ -42,7 +42,6 @@ public class TimeStampActivity extends AppCompatActivity {
     private long miliDate;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
