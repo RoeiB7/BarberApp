@@ -32,7 +32,6 @@
         <activity
             android:name=".activities.TimeStampActivity"
             android:screenOrientation="portrait" />
-
     </application>
 
 </manifest>
