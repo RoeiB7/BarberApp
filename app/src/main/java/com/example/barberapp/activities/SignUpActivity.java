@@ -165,7 +165,6 @@ public class SignUpActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 isPhoneValid = manager.validatePhone(SignUpActivity.this,
                         binding.signUpContactNumberInput, binding.signUpContactNumberLayout);
-
             }
         });
 
@@ -264,8 +263,6 @@ public class SignUpActivity extends AppCompatActivity {
         }
 
     }
-
-
 
 
 }

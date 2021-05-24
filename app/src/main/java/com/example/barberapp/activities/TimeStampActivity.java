@@ -37,7 +37,7 @@ public class TimeStampActivity extends AppCompatActivity {
     private CalendarFragment calendarFragment;
     private HoursFragment hoursFragment;
     private ActivityTimeStampBinding binding;
-    private String chosenHour, chosenDate, barberName;
+    private String chosenHour, chosenDate, barberName, contactNumber;
     private ArrayList<String> treatments;
     private long miliDate;
 
@@ -53,7 +53,7 @@ public class TimeStampActivity extends AppCompatActivity {
     }
 
     public void openBooking() {
-        String contactNumber = User.getInstance().getContactNumber();
+        contactNumber = User.getInstance().getContactNumber();
         barberName = getIntent().getStringExtra("barber");
         treatments = getIntent().getStringArrayListExtra("treatments");
         String treatmentsList = Arrays.toString(treatments.toArray()).replace("[", "").replace("]", "");
@@ -89,7 +89,7 @@ public class TimeStampActivity extends AppCompatActivity {
 
 
     private void saveAppointmentToFB() {
-        DocumentReference documentReference = FBManager.getInstance().getFirebaseFirestore()
+        DocumentReference appointmentDoc = FBManager.getInstance().getFirebaseFirestore()
                 .collection("users")
                 .document(FBManager.getInstance().getUserID())
                 .collection("appointments")
@@ -101,7 +101,7 @@ public class TimeStampActivity extends AppCompatActivity {
 
         );
 
-        documentReference.set(appointment).addOnCompleteListener(task -> {
+        appointmentDoc.set(appointment).addOnCompleteListener(task -> {
 
             if (task.isSuccessful()) {
                 Toast.makeText(this, "Appointment booked!", Toast.LENGTH_SHORT).show();
@@ -109,6 +109,12 @@ public class TimeStampActivity extends AppCompatActivity {
                 Toast.makeText(this, "Failed to book!", Toast.LENGTH_SHORT).show();
             }
         });
+
+        DocumentReference userDoc = FBManager.getInstance().getFirebaseFirestore()
+                .collection("users")
+                .document(FBManager.getInstance().getUserID());
+
+        userDoc.update("Contact Number", contactNumber);
 
 
     }

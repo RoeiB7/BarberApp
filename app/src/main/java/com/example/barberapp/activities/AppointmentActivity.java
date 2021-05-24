@@ -1,9 +1,5 @@
 package com.example.barberapp.activities;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,11 +9,15 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+
 import com.example.barberapp.R;
 import com.example.barberapp.databinding.ActivityAppointmentBinding;
+import com.example.barberapp.objects.User;
 import com.example.barberapp.utils.AppManager;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -45,8 +45,7 @@ public class AppointmentActivity extends AppCompatActivity {
     private String chosenBarber;
     private AppManager manager;
     private ArrayList<String> chosenTreatments = new ArrayList<>();
-
-    //todo: add contact number option if no contact number found in FB
+    private boolean isPhoneValid = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +56,57 @@ public class AppointmentActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        checkContactNumber();
         binding.appointmentSearchButton.setOnClickListener(v -> {
 
-            Intent intent = new Intent(this, TimeStampActivity.class);
-            intent.putExtra("barber", chosenBarber);
-            intent.putStringArrayListExtra("treatments", chosenTreatments);
-            startActivity(intent);
+            if (isPhoneValid) {
+                User.getInstance().setContactNumber(binding.appointmentContactNumberInput.getText().toString().trim());
+                Intent intent = new Intent(this, TimeStampActivity.class);
+                intent.putExtra("barber", chosenBarber);
+                intent.putStringArrayListExtra("treatments", chosenTreatments);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "Contact number is not valid!", Toast.LENGTH_SHORT).show();
+            }
 
         });
+        binding.appointmentContactNumberInput.addTextChangedListener(new TextWatcher() {
+            int keyDel;
+
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                binding.appointmentContactNumberInput.setOnKeyListener((v, keyCode, event) -> {
+
+                    if (keyCode == KeyEvent.KEYCODE_DEL)
+                        keyDel = 1;
+                    return false;
+                });
+
+                if (keyDel == 0) {
+                    int len = binding.appointmentContactNumberInput.getText().length();
+                    if (len == 3) {
+                        binding.appointmentContactNumberInput.setText(binding.appointmentContactNumberInput.getText().toString() + " - ");
+                        binding.appointmentContactNumberInput.setSelection(binding.appointmentContactNumberInput.getText().length());
+                    }
+                } else {
+                    keyDel = 0;
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                isPhoneValid = manager.validatePhone(AppointmentActivity.this,
+                        binding.appointmentContactNumberInput, binding.appointmentContactNumberLayout);
+            }
+        });
+
         selectTreatment = new boolean[treatmentsArray.length];
         binding.appointmentSelectTreatment.setOnClickListener(v -> buildMultiSelect());
         binding.appointmentSelectBarber.setOnClickListener(v -> buildSingleSelect());
@@ -160,6 +202,8 @@ public class AppointmentActivity extends AppCompatActivity {
             binding.appointmentTimeCounter.setVisibility(View.GONE);
         });
         builder.show();
+
+
     }
 
     private void writeTreatment() {
@@ -172,6 +216,15 @@ public class AppointmentActivity extends AppCompatActivity {
             }
         }
         binding.appointmentSelectTreatment.setText(stringBuilder.toString());
+    }
+
+    private void checkContactNumber() {
+        if (User.getInstance().getContactNumber().equals("N/A")) {
+            binding.appointmentContactNumberLayout.setVisibility(View.VISIBLE);
+        } else {
+            binding.appointmentContactNumberInput.setText(User.getInstance().getContactNumber());
+            isPhoneValid = true;
+        }
     }
 
 

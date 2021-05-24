@@ -1,8 +1,6 @@
 package com.example.barberapp.utils;
 
-import com.example.barberapp.R;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -16,7 +14,6 @@ public class FBManager {
     private final StorageReference storageReference;
     private static FBManager instance;
 
-    //todo: add google sign in here
 
     private FBManager() {
         firebaseAuth = FirebaseAuth.getInstance();

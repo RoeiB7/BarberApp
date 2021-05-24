@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -16,6 +19,7 @@ import com.example.barberapp.databinding.ActivityUserBinding;
 import com.example.barberapp.objects.User;
 import com.example.barberapp.utils.FBManager;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.firestore.DocumentReference;
 
 public class UserActivity extends AppCompatActivity {
 
@@ -29,7 +33,6 @@ public class UserActivity extends AppCompatActivity {
         initViews();
 
         //todo: complete my appointments
-        //todo: add  edit profile
     }
 
     private void initViews() {
@@ -54,6 +57,30 @@ public class UserActivity extends AppCompatActivity {
         binding.userNewAppointmentButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, AppointmentActivity.class);
             startActivity(intent);
+        });
+
+        binding.userEditContactNumberButton.setOnClickListener(v -> {
+            final EditText contactNumber = new EditText(v.getContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(
+                    this
+            );
+            builder.setView(contactNumber);
+            builder.setTitle("Set New Contact number");
+            builder.setMessage("\n" + "Please enter your number below:");
+            builder.setCancelable(true);
+            builder.setPositiveButton("Edit", (dialog, which) -> {
+                String number = contactNumber.getText().toString().trim();
+                User.getInstance().setContactNumber(number);
+                DocumentReference userDoc = FBManager.getInstance().getFirebaseFirestore()
+                        .collection("users")
+                        .document(FBManager.getInstance().getUserID());
+
+                userDoc.update("Contact Number", number);
+
+            });
+            builder.setNegativeButton("Cancel", null);
+            builder.show();
+
         });
     }
 

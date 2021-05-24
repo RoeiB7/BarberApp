@@ -52,6 +52,18 @@
             android:textAllCaps="false"
             android:textSize="24sp" />
 
+        <Button
+            android:id="@+id/user_editContactNumber_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="36dp"
+            android:backgroundTint="@color/my_blue"
+            android:text="@string/edit_contact"
+            android:textAllCaps="false"
+            android:textSize="24sp" />
+
 
     </LinearLayout>
 </layout>

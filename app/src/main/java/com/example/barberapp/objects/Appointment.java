@@ -4,18 +4,18 @@ import java.util.ArrayList;
 
 public class Appointment {
 
-    String barberName;
-    String date;
-    String hour;
+    String barberName, date, hour;
     long appointmentTime;
 
     public Appointment(String barberName, String date, String hour, long appointmentTime, ArrayList<String> treatments) {
+
         this.barberName = barberName;
         this.date = date;
         this.hour = hour;
         this.appointmentTime = appointmentTime;
         this.treatments = treatments;
     }
+
 
     public String getBarberName() {
         return barberName;
