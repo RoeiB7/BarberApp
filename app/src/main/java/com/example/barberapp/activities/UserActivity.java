@@ -34,12 +34,23 @@ public class UserActivity extends AppCompatActivity {
 
     private void initViews() {
         binding.userName.setText("Hi " + User.getInstance().getFirstName() + "!");
-        Glide
-                .with(this)
-                .load(User.getInstance().getImageUri())
-                .apply(new RequestOptions().override(500, 500))
-                .apply(RequestOptions.circleCropTransform())
-                .into(binding.userImage);
+        if (User.getInstance().getImageUri().equals("N/A")) {
+            Glide
+
+                    .with(this)
+                    .load(R.drawable.ic_user)
+                    .apply(new RequestOptions().override(500, 500))
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(binding.userImage);
+        } else {
+            Glide
+
+                    .with(this)
+                    .load(User.getInstance().getImageUri())
+                    .apply(new RequestOptions().override(500, 500))
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(binding.userImage);
+        }
         binding.userNewAppointmentButton.setOnClickListener(v -> {
             Intent intent = new Intent(this, AppointmentActivity.class);
             startActivity(intent);
@@ -71,4 +82,5 @@ public class UserActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

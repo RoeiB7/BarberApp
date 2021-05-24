@@ -1,15 +1,19 @@
 package com.example.barberapp.activities;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -24,6 +28,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -57,13 +63,31 @@ public class LoginActivity extends AppCompatActivity {
 
         initGoogleClient();
         initViews();
-        //todo: forgot password
         //todo: add splash screen with animation
         //todo: login with admin credentials open admin page with all admin options
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void initViews() {
+        binding.loginForgotPassword.setOnClickListener(v -> {
+            final EditText resetEmail = new EditText(v.getContext());
+            AlertDialog.Builder builder = new AlertDialog.Builder(
+                    this
+            );
+            builder.setView(resetEmail);
+            builder.setTitle("Set New Password");
+            builder.setMessage("\n" + "Please enter your email below:");
+            builder.setCancelable(true);
+            builder.setPositiveButton("Send", (dialog, which) -> {
+                String email = resetEmail.getText().toString();
+                FBManager.getInstance().getFirebaseAuth().sendPasswordResetEmail(email)
+                        .addOnSuccessListener(unused -> Toast.makeText(this, "Reset link sent to your email", Toast.LENGTH_LONG).show())
+                        .addOnFailureListener(e -> Toast.makeText(this, "Error! Reset link failed", Toast.LENGTH_LONG).show());
+
+            });
+            builder.setNegativeButton("Cancel", null);
+            builder.show();
+        });
 
         binding.loginButton.setOnClickListener(v -> {
 
