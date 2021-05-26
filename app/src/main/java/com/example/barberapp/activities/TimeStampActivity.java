@@ -90,9 +90,9 @@ public class TimeStampActivity extends AppCompatActivity {
 
     private void saveAppointmentToFB() {
         DocumentReference appointmentDoc = FBManager.getInstance().getFirebaseFirestore()
-                .collection("users")
+                .collection(FBManager.USERS)
                 .document(FBManager.getInstance().getUserID())
-                .collection("appointments")
+                .collection(FBManager.APPOINTMENTS)
                 .document(chosenDate.replace('/', '.') + " " + chosenHour);
 
 
@@ -111,7 +111,7 @@ public class TimeStampActivity extends AppCompatActivity {
         });
 
         DocumentReference userDoc = FBManager.getInstance().getFirebaseFirestore()
-                .collection("users")
+                .collection(FBManager.USERS)
                 .document(FBManager.getInstance().getUserID());
 
         userDoc.update("Contact Number", contactNumber);

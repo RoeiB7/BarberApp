@@ -72,7 +72,7 @@ public class UserActivity extends AppCompatActivity {
                 String number = contactNumber.getText().toString().trim();
                 User.getInstance().setContactNumber(number);
                 DocumentReference userDoc = FBManager.getInstance().getFirebaseFirestore()
-                        .collection("users")
+                        .collection(FBManager.USERS)
                         .document(FBManager.getInstance().getUserID());
 
                 userDoc.update("Contact Number", number);

@@ -183,7 +183,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void getUserData() {
         final DocumentReference docRef = FBManager.getInstance().getFirebaseFirestore()
-                .collection("users")
+                .collection(FBManager.USERS)
                 .document(FBManager.getInstance().getUserID());
         docRef.addSnapshotListener((snapshot, e) -> {
             if (e != null) {
@@ -265,7 +265,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void addUserToFB() {
-        DocumentReference documentReference = FBManager.getInstance().getFirebaseFirestore().collection("users").document(FBManager.getInstance().getUserID());
+        DocumentReference documentReference = FBManager.getInstance().getFirebaseFirestore().collection(FBManager.USERS).document(FBManager.getInstance().getUserID());
         Map<String, Object> user = new HashMap<>();
         String fullName = FBManager.getInstance().getFirebaseAuth().getCurrentUser().getDisplayName();
         String firstName;
