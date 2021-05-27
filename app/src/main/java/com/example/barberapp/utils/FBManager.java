@@ -13,6 +13,8 @@ public class FBManager {
     private final FirebaseFirestore firebaseFirestore;
     private final StorageReference storageReference;
     private static FBManager instance;
+    public static final String USERS = "users";
+    public static final String APPOINTMENTS = "appointments";
 
 
     private FBManager() {

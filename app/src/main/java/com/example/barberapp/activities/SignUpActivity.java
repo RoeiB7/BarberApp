@@ -173,7 +173,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void addUserToFB() {
-        DocumentReference documentReference = FBManager.getInstance().getFirebaseFirestore().collection("users").document(FBManager.getInstance().getUserID());
+        DocumentReference documentReference = FBManager.getInstance().getFirebaseFirestore().collection(FBManager.USERS).document(FBManager.getInstance().getUserID());
         Map<String, Object> user = new HashMap<>();
         user.put("First Name", binding.signUpFNameInput.getText().toString().trim());
         user.put("Last Name", binding.signUpLNameInput.getText().toString().trim());
@@ -224,7 +224,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Uri downloadUri = task.getResult();
 
                     DocumentReference documentReference = FBManager.getInstance().getFirebaseFirestore()
-                            .collection("users").document(FBManager.getInstance().getUserID());
+                            .collection(FBManager.USERS).document(FBManager.getInstance().getUserID());
 
                     documentReference.update("Profile Pic", downloadUri.toString());
                     User.getInstance().setImageUri(downloadUri.toString());
@@ -235,7 +235,7 @@ public class SignUpActivity extends AppCompatActivity {
             });
         } else {
             DocumentReference documentReference = FBManager.getInstance().getFirebaseFirestore()
-                    .collection("users").document(FBManager.getInstance().getUserID());
+                    .collection(FBManager.USERS).document(FBManager.getInstance().getUserID());
 
             documentReference.update("Profile Pic", "N/A");
         }

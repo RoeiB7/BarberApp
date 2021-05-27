@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.barberapp.R;
 import com.example.barberapp.activities.TimeStampActivity;
 import com.example.barberapp.databinding.FragmentHoursBinding;
-import com.example.barberapp.utils.AdapterHours;
+import com.example.barberapp.adapters.AdapterHours;
 
 import java.util.ArrayList;
 import java.util.List;

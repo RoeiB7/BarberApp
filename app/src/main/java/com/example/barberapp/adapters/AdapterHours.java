@@ -1,4 +1,4 @@
-package com.example.barberapp.utils;
+package com.example.barberapp.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
