@@ -42,6 +42,7 @@ public class UserActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user);
         initViews();
 
+
     }
 
     private void initViews() {
@@ -139,20 +140,15 @@ public class UserActivity extends AppCompatActivity {
                             appointment = ds.toObject(Appointment.class);
                             appointments.add(appointment);
                         }
-
                     }
-
+                    Collections.sort(appointments, new TimeComperator());
+                    User.getInstance().setAppointments(appointments);
+                    if (User.getInstance().getAppointments() == null) {
+                        Toast.makeText(this, "No appointments found", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intent = new Intent(UserActivity.this, AppointmentsSummaryActivity.class);
+                        startActivity(intent);
+                    }
                 });
-        Log.d("ptt", appointments.toString());
-        Collections.sort(appointments, new TimeComperator());
-        User.getInstance().setAppointments(appointments);
-        if (User.getInstance().getAppointments() == null) {
-            Toast.makeText(this, "No appointments found", Toast.LENGTH_SHORT).show();
-        } else {
-            Log.d("ptt", User.getInstance().getAppointments().toString());
-            Intent intent = new Intent(UserActivity.this, AppointmentsSummaryActivity.class);
-            startActivity(intent);
-            finish();
-        }
     }
 }

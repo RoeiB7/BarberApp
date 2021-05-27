@@ -22,5 +22,7 @@ public class AppointmentsSummaryActivity extends AppCompatActivity {
         active = new ActiveAppointmentsFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.container_first_fragment, active).commit();
         //getSupportFragmentManager().beginTransaction().replace(R.id.container_second_fragment, hoursFragment).commit();
+
+        //todo: add second fragment
     }
 }
