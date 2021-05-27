@@ -31,7 +31,7 @@ public class UserActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user);
         initViews();
-//
+
         //todo: complete my appointments
     }
 
