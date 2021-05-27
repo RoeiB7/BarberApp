@@ -19,7 +19,7 @@ public class AppointmentsSummaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_appointments_summary);
-
+        active = new ActiveAppointmentsFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.container_first_fragment, active).commit();
         //getSupportFragmentManager().beginTransaction().replace(R.id.container_second_fragment, hoursFragment).commit();
     }
