@@ -21,9 +21,9 @@ public class AdapterActive extends RecyclerView.Adapter<AdapterActive.MyViewHold
     private ItemClickListener mClickListener;
 
     // _hours is passed into the constructor
-    public AdapterActive(Context context, List<Appointment> _appointments) {
+    public AdapterActive(Context context, List<Appointment> appointments) {
         this.mInflater = LayoutInflater.from(context);
-        this.appointments = _appointments;
+        this.appointments = appointments;
     }
 
     public void updateOneItem(int position) {

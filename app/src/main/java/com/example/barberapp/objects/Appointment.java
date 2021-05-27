@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 public class Appointment {
 
-    String barberName, date, hour;
-    long appointmentTime;
+    private String barberName, date, hour;
+    private long appointmentTime;
+    public Appointment() {
+
+    }
 
     public Appointment(String barberName, String date, String hour, long appointmentTime, ArrayList<String> treatments) {
 

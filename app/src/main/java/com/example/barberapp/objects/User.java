@@ -1,5 +1,7 @@
 package com.example.barberapp.objects;
 
+import java.util.ArrayList;
+
 public class User {
 
     private String firstName;
@@ -8,6 +10,7 @@ public class User {
     private String contactNumber;
     private String imageUri;
     private static User instance;
+    private ArrayList<Appointment> appointments;
 
 
     private User() {
@@ -64,5 +67,13 @@ public class User {
 
     public void setImageUri(String imageUri) {
         this.imageUri = imageUri;
+    }
+
+    public ArrayList<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(ArrayList<Appointment> appointments) {
+        this.appointments = appointments;
     }
 }
