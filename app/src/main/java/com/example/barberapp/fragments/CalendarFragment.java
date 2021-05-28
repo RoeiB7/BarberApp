@@ -17,6 +17,7 @@ import com.example.barberapp.activities.TimeStampActivity;
 import com.example.barberapp.databinding.FragmentCalendarBinding;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -24,6 +25,7 @@ public class CalendarFragment extends Fragment {
     private View view;
     private FragmentCalendarBinding binding;
     private String curDate;
+    private long eventOccursOn;
 
 
     @Nullable
@@ -34,10 +36,12 @@ public class CalendarFragment extends Fragment {
         view = binding.getRoot();
 
         binding.calendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
-            month++;
-            curDate = dayOfMonth + "/" + month + "/" + year;
-
-            ((TimeStampActivity) getActivity()).getDate(curDate, binding.calendar.getDate());
+            int fixedMonth = month + 1;
+            curDate = dayOfMonth + "/" + fixedMonth + "/" + year;
+            Calendar c = Calendar.getInstance();
+            c.set(year, month, dayOfMonth);
+            eventOccursOn = c.getTimeInMillis();
+            ((TimeStampActivity) getActivity()).getDate(curDate, eventOccursOn);
         });
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
