@@ -10,7 +10,8 @@ public class User {
     private String contactNumber;
     private String imageUri;
     private static User instance;
-    private ArrayList<Appointment> appointments;
+    private ArrayList<Appointment> activeAppointments;
+    private ArrayList<Appointment> pastAppointments;
 
 
     private User() {
@@ -69,11 +70,19 @@ public class User {
         this.imageUri = imageUri;
     }
 
-    public ArrayList<Appointment> getAppointments() {
-        return appointments;
+    public ArrayList<Appointment> getActiveAppointments() {
+        return activeAppointments;
     }
 
-    public void setAppointments(ArrayList<Appointment> appointments) {
-        this.appointments = appointments;
+    public void setActiveAppointments(ArrayList<Appointment> activeAppointments) {
+        this.activeAppointments = activeAppointments;
+    }
+
+    public ArrayList<Appointment> getPastAppointments() {
+        return pastAppointments;
+    }
+
+    public void setPastAppointments(ArrayList<Appointment> pastAppointments) {
+        this.pastAppointments = pastAppointments;
     }
 }

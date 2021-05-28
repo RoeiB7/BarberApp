@@ -1,4 +1,4 @@
- package com.example.barberapp.fragments;
+package com.example.barberapp.fragments;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -46,7 +46,7 @@ public class ActiveAppointmentsFragment extends Fragment {
 
 
     private void showActive() {
-        activeAdapter = new AdapterActive(view.getContext(), User.getInstance().getAppointments());
+        activeAdapter = new AdapterActive(view.getContext(), User.getInstance().getActiveAppointments());
         initAdapter();
         binding.activeList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         binding.activeList.setAdapter(activeAdapter);
@@ -57,7 +57,7 @@ public class ActiveAppointmentsFragment extends Fragment {
     }
 
     public void openSummary(int position) {
-        Appointment appointment = User.getInstance().getAppointments().get(position);
+        Appointment appointment = User.getInstance().getActiveAppointments().get(position);
         String chosenDate = appointment.getDate();
         String chosenHour = appointment.getHour();
         String contactNumber = User.getInstance().getContactNumber();
