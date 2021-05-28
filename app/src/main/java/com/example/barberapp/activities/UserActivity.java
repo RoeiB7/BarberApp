@@ -32,7 +32,8 @@ import java.util.Collections;
 public class UserActivity extends AppCompatActivity {
 
     private ActivityUserBinding binding;
-    private ArrayList<Appointment> appointments;
+    private ArrayList<Appointment> activeAppointments;
+    private ArrayList<Appointment> pastAppointments;
     private Appointment appointment;
 
     @Override
@@ -125,7 +126,8 @@ public class UserActivity extends AppCompatActivity {
     }
 
     private void createList() {
-        appointments = new ArrayList<>();
+        activeAppointments = new ArrayList<>();
+        pastAppointments = new ArrayList<>();
         FBManager.getInstance().getFirebaseFirestore()
                 .collection(FBManager.USERS)
                 .document(FBManager.getInstance().getUserID())
@@ -138,12 +140,18 @@ public class UserActivity extends AppCompatActivity {
                     } else {
                         for (DocumentSnapshot ds : documentSnapshots.getDocuments()) {
                             appointment = ds.toObject(Appointment.class);
-                            appointments.add(appointment);
+                            if (System.currentTimeMillis() > appointment.getAppointmentTime()) {
+                                pastAppointments.add(appointment);
+                            } else {
+                                activeAppointments.add(appointment);
+                            }
                         }
                     }
-                    Collections.sort(appointments, new TimeComperator());
-                    User.getInstance().setAppointments(appointments);
-                    if (User.getInstance().getAppointments() == null) {
+                    Collections.sort(activeAppointments, new TimeComperator());
+                    Collections.sort(pastAppointments, new TimeComperator());
+                    User.getInstance().setActiveAppointments(activeAppointments);
+                    User.getInstance().setPastAppointments(pastAppointments);
+                    if (activeAppointments.isEmpty() && pastAppointments.isEmpty()) {
                         Toast.makeText(this, "No appointments found", Toast.LENGTH_SHORT).show();
                     } else {
                         Intent intent = new Intent(UserActivity.this, AppointmentsSummaryActivity.class);
