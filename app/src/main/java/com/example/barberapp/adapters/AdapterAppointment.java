@@ -14,14 +14,14 @@ import com.example.barberapp.objects.Appointment;
 
 import java.util.List;
 
-public class AdapterActive extends RecyclerView.Adapter<AdapterActive.MyViewHolder> {
+public class AdapterAppointment extends RecyclerView.Adapter<AdapterAppointment.MyViewHolder> {
 
     private List<Appointment> appointments;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // _hours is passed into the constructor
-    public AdapterActive(Context context, List<Appointment> appointments) {
+    public AdapterAppointment(Context context, List<Appointment> appointments) {
         this.mInflater = LayoutInflater.from(context);
         this.appointments = appointments;
     }

@@ -24,7 +24,6 @@ import java.util.Locale;
 public class AppointmentActivity extends AppCompatActivity {
 
 
-
     //todo: fix default barber!
     private ActivityAppointmentBinding binding;
     private boolean[] selectTreatment;
@@ -61,14 +60,14 @@ public class AppointmentActivity extends AppCompatActivity {
         checkContactNumber();
         binding.appointmentSearchButton.setOnClickListener(v -> {
 
-            if (isPhoneValid) {
+            if (isPhoneValid && chosenBarber != null) {
                 User.getInstance().setContactNumber(binding.appointmentContactNumberInput.getText().toString().trim());
                 Intent intent = new Intent(this, TimeStampActivity.class);
                 intent.putExtra("barber", chosenBarber);
                 intent.putStringArrayListExtra("treatments", chosenTreatments);
                 startActivity(intent);
             } else {
-                Toast.makeText(this, "Contact number is not valid!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error! one or more fields are incomplete", Toast.LENGTH_SHORT).show();
             }
 
         });
@@ -122,11 +121,13 @@ public class AppointmentActivity extends AppCompatActivity {
         );
         builder.setTitle("Select Barber");
         builder.setCancelable(false);
-        builder.setSingleChoiceItems(barbersNames, 0, (dialog, which) -> {
+        builder.setSingleChoiceItems(barbersNames, -1, (dialog, which) -> {
+
             chosenBarber = barbersNames[which];
 
         });
         builder.setPositiveButton("OK", (dialog, which) -> {
+
             binding.appointmentSelectBarber.setText(chosenBarber);
         });
         builder.setNegativeButton("CANCEL", null);

@@ -14,42 +14,41 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.barberapp.R;
 import com.example.barberapp.adapters.AdapterAppointment;
-import com.example.barberapp.databinding.FragementActiveAppointmentsBinding;
+import com.example.barberapp.databinding.FragmentPastAppointmentsBinding;
 import com.example.barberapp.objects.Appointment;
 import com.example.barberapp.objects.User;
 
 import java.util.Arrays;
 
-public class ActiveAppointmentsFragment extends Fragment {
-    private View view;
-    private FragementActiveAppointmentsBinding binding;
-    private AdapterAppointment activeAdapter;
 
+public class PastAppointmentFragment extends Fragment {
+    private View view;
+    private FragmentPastAppointmentsBinding binding;
+    private AdapterAppointment pastAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragement_active_appointments, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_past_appointments, container, false);
         view = binding.getRoot();
-        showActive();
+        showPast();
         return view;
 
     }
 
-
-    private void showActive() {
-        activeAdapter = new AdapterAppointment(view.getContext(), User.getInstance().getActiveAppointments());
+    private void showPast() {
+        pastAdapter = new AdapterAppointment(view.getContext(), User.getInstance().getPastAppointments());
         initAdapter();
-        binding.activeList.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        binding.activeList.setAdapter(activeAdapter);
+        binding.pastList.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        binding.pastList.setAdapter(pastAdapter);
     }
 
     private void initAdapter() {
-        activeAdapter.setClickListener((view, position) -> openSummary(position));
+        pastAdapter.setClickListener((view, position) -> openSummary(position));
     }
 
     public void openSummary(int position) {
-        Appointment appointment = User.getInstance().getActiveAppointments().get(position);
+        Appointment appointment = User.getInstance().getPastAppointments().get(position);
         String chosenDate = appointment.getDate();
         String chosenHour = appointment.getHour();
         String contactNumber = User.getInstance().getContactNumber();
@@ -67,6 +66,5 @@ public class ActiveAppointmentsFragment extends Fragment {
         builder.setCancelable(true);
         builder.show();
     }
-
 
 }
