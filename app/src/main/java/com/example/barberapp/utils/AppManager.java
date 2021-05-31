@@ -1,13 +1,18 @@
 package com.example.barberapp.utils;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.WindowManager;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.barberapp.activities.UserActivity;
+import com.example.barberapp.objects.User;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.firestore.DocumentReference;
+
+import java.util.Map;
 
 public class AppManager {
 
@@ -68,8 +73,31 @@ public class AppManager {
         activity.finish();
     }
 
+    public void getUserData(AppCompatActivity activity) {
+        final DocumentReference docRef = FBManager.getInstance().getFirebaseFirestore()
+                .collection(FBManager.USERS)
+                .document(FBManager.getInstance().getUserID());
+        docRef.addSnapshotListener((snapshot, e) -> {
+            if (e != null) {
+                Log.d("ptt", "user data listen failed.");
+                return;
+            }
 
+            if (snapshot != null && snapshot.exists()) {
+                Map<String, Object> userData = snapshot.getData();
+                User.getInstance().setFirstName((String) userData.get("First Name"));
+                User.getInstance().setLastName((String) userData.get("Last Name"));
+                User.getInstance().setEmail((String) userData.get("Email"));
+                User.getInstance().setContactNumber((String) userData.get("Contact Number"));
+                User.getInstance().setImageUri((String) userData.get("Profile Pic"));
 
+                moveToUserActivity(activity);
+            } else {
+                Log.d("ptt", "user data: null");
+            }
+        });
+
+    }
 
 
 }

@@ -135,8 +135,8 @@ public class UserActivity extends AppCompatActivity {
                 .get()
                 .addOnSuccessListener(documentSnapshots -> {
                     if (documentSnapshots.isEmpty()) {
-                        Log.d("empty", "onSuccess: LIST EMPTY");
-                        return;
+                        Intent intent = new Intent(UserActivity.this, AppointmentsSummaryActivity.class);
+                        startActivity(intent);
                     } else {
                         for (DocumentSnapshot ds : documentSnapshots.getDocuments()) {
                             appointment = ds.toObject(Appointment.class);

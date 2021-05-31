@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".SplashActivity">
+        tools:context=".activities.SplashActivity">
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottie_splash"
@@ -15,5 +15,6 @@
             android:layout_height="wrap_content"
             app:lottie_autoPlay="true"
             app:lottie_rawRes="@raw/splash" />
+
     </RelativeLayout>
 </layout>

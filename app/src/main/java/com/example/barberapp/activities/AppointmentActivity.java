@@ -24,7 +24,6 @@ import java.util.Locale;
 public class AppointmentActivity extends AppCompatActivity {
 
 
-    //todo: fix default barber!
     private ActivityAppointmentBinding binding;
     private boolean[] selectTreatment;
     private ArrayList<Integer> chosenList = new ArrayList<>();

@@ -1,7 +1,6 @@
 package com.example.barberapp.activities;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,7 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -28,8 +26,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -57,13 +53,9 @@ public class LoginActivity extends AppCompatActivity {
         manager = new AppManager(this);
         setGoogleButton();
 
-        if (FBManager.getInstance().getFirebaseAuth().getCurrentUser() != null) {
-            getUserData();
-        }
 
         initGoogleClient();
         initViews();
-        //todo: add splash screen with animation
         //todo: login with admin credentials open admin page with all admin options
     }
 
@@ -94,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
             if (isEmailValid && isPasswordValid) {
                 FBManager.getInstance().getFirebaseAuth().signInWithEmailAndPassword(binding.loginEmailInput.getText().toString().trim(), binding.loginPasswordInput.getText().toString().trim())
 
-                        .addOnSuccessListener(authResult -> getUserData())
+                        .addOnSuccessListener(authResult -> manager.getUserData(this))
 
                         .addOnFailureListener(e -> Toast.makeText(this, "Error! " + e.getMessage(), Toast.LENGTH_LONG).show());
 
@@ -181,31 +173,6 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private void getUserData() {
-        final DocumentReference docRef = FBManager.getInstance().getFirebaseFirestore()
-                .collection(FBManager.USERS)
-                .document(FBManager.getInstance().getUserID());
-        docRef.addSnapshotListener((snapshot, e) -> {
-            if (e != null) {
-                Log.d("ptt", "user data listen failed.");
-                return;
-            }
-
-            if (snapshot != null && snapshot.exists()) {
-                Map<String, Object> userData = snapshot.getData();
-                User.getInstance().setFirstName((String) userData.get("First Name"));
-                User.getInstance().setLastName((String) userData.get("Last Name"));
-                User.getInstance().setEmail((String) userData.get("Email"));
-                User.getInstance().setContactNumber((String) userData.get("Contact Number"));
-                User.getInstance().setImageUri((String) userData.get("Profile Pic"));
-
-                manager.moveToUserActivity(this);
-            } else {
-                Log.d("ptt", "user data: null");
-            }
-        });
-
-    }
 
     private void initGoogleClient() {
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

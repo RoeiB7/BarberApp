@@ -2,6 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:background="@drawable/active_appointment_border"
     android:layoutDirection="ltr"
     android:orientation="horizontal">
 
@@ -13,9 +15,9 @@
         android:layout_marginStart="16dp"
         android:layout_weight="1"
         android:text="26.5.2021"
+        android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="32sp"
-        android:textAlignment="center"
 
         />
 
@@ -23,12 +25,11 @@
         android:id="@+id/appointments_hour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
         android:layout_weight="1"
         android:text="11:45"
         android:textColor="@color/black"
         android:textSize="32sp"
-        android:layout_marginEnd="16dp"
-
 
 
         />

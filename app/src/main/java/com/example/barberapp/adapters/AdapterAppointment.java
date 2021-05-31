@@ -1,6 +1,7 @@
 package com.example.barberapp.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ public class AdapterAppointment extends RecyclerView.Adapter<AdapterAppointment.
     private List<Appointment> appointments;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
+    private int layout;
 
     // _hours is passed into the constructor
     public AdapterAppointment(Context context, List<Appointment> appointments) {
@@ -34,7 +36,14 @@ public class AdapterAppointment extends RecyclerView.Adapter<AdapterAppointment.
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.appointments_list, parent, false);
+        //todo:check how to indicate which fragment used this adapter
+        Log.d("ptt", parent.getClass().getName());
+        if (parent.getClass().getName().equals("ActiveAppointmentFragment")) {
+            layout = R.layout.active_appointments_list;
+        } else if (parent.getClass().getName().equals("PastAppointmentFragment")) {
+            layout = R.layout.past_appointments_list;
+        }
+        View view = mInflater.inflate(R.layout.active_appointments_list, parent, false);
         return new MyViewHolder(view);
     }
 

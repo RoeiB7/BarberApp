@@ -11,17 +11,38 @@
         android:orientation="vertical"
         tools:context=".activities.TimeStampActivity">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/active_appointments"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
+
         <FrameLayout
             android:id="@+id/container_first_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/layout_border" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/expired_appointments"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="24sp" />
 
         <FrameLayout
             android:id="@+id/container_second_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:background="@drawable/layout_border" />
 
     </LinearLayout>
 
