@@ -39,13 +39,14 @@ public class TimeStampActivity extends AppCompatActivity {
     private ActivityTimeStampBinding binding;
     private String chosenHour, chosenDate, barberName, contactNumber;
     private ArrayList<String> treatments;
-    private long miliDate;
+    private long miliDate, recordsToRemove;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_time_stamp);
+        recordsToRemove = getIntent().getLongExtra("time", -1) / 10;
         calendarFragment = new CalendarFragment();
         hoursFragment = new HoursFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.container_upper_fragment, calendarFragment).commit();
@@ -70,6 +71,7 @@ public class TimeStampActivity extends AppCompatActivity {
         builder.setPositiveButton("Book", (dialog, which) -> {
 
             saveAppointmentToFB();
+            //todo: fix hours list
 
 
         });

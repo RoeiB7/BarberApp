@@ -63,6 +63,7 @@ public class AppointmentActivity extends AppCompatActivity {
                 User.getInstance().setContactNumber(binding.appointmentContactNumberInput.getText().toString().trim());
                 Intent intent = new Intent(this, TimeStampActivity.class);
                 intent.putExtra("barber", chosenBarber);
+                intent.putExtra("time", time);
                 intent.putStringArrayListExtra("treatments", chosenTreatments);
                 startActivity(intent);
             } else {
