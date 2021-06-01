@@ -31,22 +31,25 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TimeStampActivity extends AppCompatActivity {
 
     private CalendarFragment calendarFragment;
     private HoursFragment hoursFragment;
     private ActivityTimeStampBinding binding;
-    private String chosenHour, chosenDate, barberName, contactNumber;
+    private String chosenHour, chosenDate, barberName, contactNumber, day, month, year;
     private ArrayList<String> treatments;
-    private long miliDate, recordsToRemove;
+    private long miliDate;
+    private int recordsToRemove;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_time_stamp);
-        recordsToRemove = getIntent().getLongExtra("time", -1) / 10;
+        recordsToRemove = (int) (getIntent().getLongExtra("time", -1) / 10);
         calendarFragment = new CalendarFragment();
         hoursFragment = new HoursFragment();
         getSupportFragmentManager().beginTransaction().replace(R.id.container_upper_fragment, calendarFragment).commit();
@@ -71,7 +74,6 @@ public class TimeStampActivity extends AppCompatActivity {
         builder.setPositiveButton("Book", (dialog, which) -> {
 
             saveAppointmentToFB();
-            //todo: fix hours list
 
 
         });
@@ -81,8 +83,11 @@ public class TimeStampActivity extends AppCompatActivity {
 
     public void getDate(String date, long _miliDate) {
         chosenDate = date;
+        String[] dmy = chosenDate.split("/");
+        day = dmy[0];
+        month = dmy[1];
+        year = dmy[2];
         miliDate = _miliDate;
-
     }
 
     public void getHour(String hour) {
@@ -118,6 +123,25 @@ public class TimeStampActivity extends AppCompatActivity {
 
         userDoc.update("Contact Number", contactNumber);
 
+
+        DocumentReference dateDoc = FBManager.getInstance().getFirebaseFirestore()
+                .collection(FBManager.CALENDAR)
+                .document(year)
+                .collection(month)
+                .document(day);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("record", recordsToRemove);
+        map.put("time", chosenHour);
+
+        dateDoc.set(map).addOnCompleteListener(task -> {
+
+            if (task.isSuccessful()) {
+                Log.d("ptt", "date saved");
+            } else {
+                Log.d("ptt", "failed to save date");
+            }
+        });
 
     }
 

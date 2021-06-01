@@ -33,7 +33,6 @@ public class HoursFragment extends Fragment {
         view = binding.getRoot();
         createList();
         return view;
-        //todo: sync hours with already selected hours
 
     }
 
@@ -48,7 +47,10 @@ public class HoursFragment extends Fragment {
                 }
             }
         }
-
+        //todo:get dateData from Calendar fragment and sync hours list with dateData
+//        if (!dateData.isEmpty()) {
+//
+//        }
         adapter = new AdapterHours(view.getContext(), hours);
 
         adapter.setClickListener((view, position) -> {

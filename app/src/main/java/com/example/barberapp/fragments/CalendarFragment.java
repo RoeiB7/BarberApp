@@ -1,11 +1,13 @@
 package com.example.barberapp.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,11 +15,20 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.example.barberapp.R;
+import com.example.barberapp.activities.AppointmentsSummaryActivity;
 import com.example.barberapp.activities.TimeStampActivity;
+import com.example.barberapp.activities.UserActivity;
 import com.example.barberapp.databinding.FragmentCalendarBinding;
+import com.example.barberapp.objects.Appointment;
+import com.example.barberapp.objects.User;
+import com.example.barberapp.utils.FBManager;
+import com.example.barberapp.utils.TimeComperator;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -26,6 +37,7 @@ public class CalendarFragment extends Fragment {
     private FragmentCalendarBinding binding;
     private String curDate;
     private long eventOccursOn;
+    private ArrayList<String> dateData;
 
 
     @Nullable
@@ -37,12 +49,16 @@ public class CalendarFragment extends Fragment {
 
         binding.calendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             int fixedMonth = month + 1;
+            removeRecords(dayOfMonth + "", fixedMonth + "", year + "");
             curDate = dayOfMonth + "/" + fixedMonth + "/" + year;
             Calendar c = Calendar.getInstance();
             c.set(year, month, dayOfMonth);
             eventOccursOn = c.getTimeInMillis();
             ((TimeStampActivity) getActivity()).getDate(curDate, eventOccursOn);
+
+
         });
+
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         String selectedDate = sdf.format(new Date(binding.calendar.getDate()));
@@ -50,6 +66,27 @@ public class CalendarFragment extends Fragment {
         binding.calendar.setMinDate(binding.calendar.getDate());
 
         return view;
+    }
+
+    private void removeRecords(String day, String month, String year) {
+        dateData = new ArrayList<>();
+        FBManager.getInstance().getFirebaseFirestore()
+                .collection(FBManager.CALENDAR)
+                .document(year)
+                .collection(month)
+                .get()
+                .addOnSuccessListener(documentSnapshots -> {
+                    if (documentSnapshots.isEmpty()) {
+                        Log.d("ptt", "no appointments found");
+                    } else {
+                        for (DocumentSnapshot ds : documentSnapshots.getDocuments()) {
+                            dateData.add(ds.getString("time"));
+                            dateData.add(String.valueOf(ds.getLong("record")));
+                        }
+                    }
+                    //todo: pass dateData list to Hours fragment
+
+                });
     }
 
 

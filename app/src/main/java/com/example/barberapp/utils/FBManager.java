@@ -15,6 +15,7 @@ public class FBManager {
     private static FBManager instance;
     public static final String USERS = "users";
     public static final String APPOINTMENTS = "appointments";
+    public static final String CALENDAR = "calendar";
 
 
     private FBManager() {
