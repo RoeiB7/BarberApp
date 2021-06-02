@@ -19,6 +19,7 @@ import com.example.barberapp.activities.AppointmentsSummaryActivity;
 import com.example.barberapp.activities.TimeStampActivity;
 import com.example.barberapp.activities.UserActivity;
 import com.example.barberapp.databinding.FragmentCalendarBinding;
+import com.example.barberapp.interfaces.Callback_timeStamp;
 import com.example.barberapp.objects.Appointment;
 import com.example.barberapp.objects.User;
 import com.example.barberapp.utils.FBManager;
@@ -38,6 +39,7 @@ public class CalendarFragment extends Fragment {
     private String curDate;
     private long eventOccursOn;
     private ArrayList<String> dateData;
+    private Callback_timeStamp callback_timeStamp;
 
 
     @Nullable
@@ -84,10 +86,14 @@ public class CalendarFragment extends Fragment {
                             dateData.add(String.valueOf(ds.getLong("record")));
                         }
                     }
+
+                    callback_timeStamp.getRecords(dateData);
                     //todo: pass dateData list to Hours fragment
 
                 });
     }
 
-
+    public void setCallback_timeStamp(Callback_timeStamp callback_timeStamp) {
+        this.callback_timeStamp = callback_timeStamp;
+    }
 }

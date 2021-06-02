@@ -1,6 +1,7 @@
 package com.example.barberapp.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,7 @@ public class HoursFragment extends Fragment {
     private View view;
     private FragmentHoursBinding binding;
     private AdapterHours adapter;
-    private List<String> hours;
+    private List<String> hours, records = new ArrayList<>();
 
     @Nullable
     @Override
@@ -48,9 +49,9 @@ public class HoursFragment extends Fragment {
             }
         }
         //todo:get dateData from Calendar fragment and sync hours list with dateData
-//        if (!dateData.isEmpty()) {
-//
-//        }
+        if (!records.isEmpty()) {
+            Log.d("ptt", records.toString());
+        }
         adapter = new AdapterHours(view.getContext(), hours);
 
         adapter.setClickListener((view, position) -> {
@@ -65,4 +66,7 @@ public class HoursFragment extends Fragment {
 
     }
 
+    public void setRecords(ArrayList<String> arrayList) {
+        records = arrayList;
+    }
 }

@@ -17,6 +17,7 @@ import com.example.barberapp.R;
 import com.example.barberapp.databinding.ActivityTimeStampBinding;
 import com.example.barberapp.fragments.CalendarFragment;
 import com.example.barberapp.fragments.HoursFragment;
+import com.example.barberapp.interfaces.Callback_timeStamp;
 import com.example.barberapp.objects.Appointment;
 import com.example.barberapp.objects.User;
 import com.example.barberapp.utils.FBManager;
@@ -52,6 +53,7 @@ public class TimeStampActivity extends AppCompatActivity {
         recordsToRemove = (int) (getIntent().getLongExtra("time", -1) / 10);
         calendarFragment = new CalendarFragment();
         hoursFragment = new HoursFragment();
+        calendarFragment.setCallback_timeStamp(callBack_right);
         getSupportFragmentManager().beginTransaction().replace(R.id.container_upper_fragment, calendarFragment).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.container_lower_fragment, hoursFragment).commit();
     }
@@ -145,4 +147,11 @@ public class TimeStampActivity extends AppCompatActivity {
 
     }
 
+    private final Callback_timeStamp callBack_right = new Callback_timeStamp() {
+
+        @Override
+        public void getRecords(ArrayList<String> arrayList) {
+            hoursFragment.setRecords(arrayList);
+        }
+    };
 }
