@@ -48,9 +48,11 @@ public class HoursFragment extends Fragment {
                 }
             }
         }
-        //todo:get dateData from Calendar fragment and sync hours list with dateData
+        //todo: fix here, need to check if records no empty
+        Log.d("ptt", records.toString());
         if (!records.isEmpty()) {
             Log.d("ptt", records.toString());
+            //todo: add logic here for sync hours and records
         }
         adapter = new AdapterHours(view.getContext(), hours);
 

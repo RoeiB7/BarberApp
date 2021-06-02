@@ -130,7 +130,11 @@ public class TimeStampActivity extends AppCompatActivity {
                 .collection(FBManager.CALENDAR)
                 .document(year)
                 .collection(month)
-                .document(day);
+                .document(day)
+                .collection(FBManager.APPOINTMENTS)
+                .document();
+
+        //todo: fix save to calendar in firebase
 
         Map<String, Object> map = new HashMap<>();
         map.put("record", recordsToRemove);
