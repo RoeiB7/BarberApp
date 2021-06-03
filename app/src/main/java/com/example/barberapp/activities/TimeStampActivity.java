@@ -51,11 +51,13 @@ public class TimeStampActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_time_stamp);
         recordsToRemove = (int) (getIntent().getLongExtra("time", -1) / 10);
+
         calendarFragment = new CalendarFragment();
-        hoursFragment = new HoursFragment();
         calendarFragment.setCallback_timeStamp(callBack_right);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container_upper_fragment, calendarFragment).commit();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container_lower_fragment, hoursFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.container_upper_fragment, calendarFragment).commit();
+
+        hoursFragment = new HoursFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.container_lower_fragment, hoursFragment).commit();
     }
 
     public void openBooking() {
@@ -134,7 +136,6 @@ public class TimeStampActivity extends AppCompatActivity {
                 .collection(FBManager.APPOINTMENTS)
                 .document();
 
-        //todo: fix save to calendar in firebase
 
         Map<String, Object> map = new HashMap<>();
         map.put("record", recordsToRemove);
@@ -143,9 +144,9 @@ public class TimeStampActivity extends AppCompatActivity {
         dateDoc.set(map).addOnCompleteListener(task -> {
 
             if (task.isSuccessful()) {
-                Log.d("ptt", "date saved");
+                Log.d("ptt", "appointment saved to calendar");
             } else {
-                Log.d("ptt", "failed to save date");
+                Log.d("ptt", "failed to save appointment ot calendar");
             }
         });
 
@@ -155,6 +156,8 @@ public class TimeStampActivity extends AppCompatActivity {
 
         @Override
         public void getRecords(ArrayList<String> arrayList) {
+            Log.d("ptt", "arraylist in getRecords = " + arrayList.toString());
+
             hoursFragment.setRecords(arrayList);
         }
     };

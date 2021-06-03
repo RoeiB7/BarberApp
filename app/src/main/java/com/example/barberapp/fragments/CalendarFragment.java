@@ -42,6 +42,8 @@ public class CalendarFragment extends Fragment {
     private Callback_timeStamp callback_timeStamp;
 
 
+    //todo: sync current day with hours list
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,7 +53,7 @@ public class CalendarFragment extends Fragment {
 
         binding.calendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             int fixedMonth = month + 1;
-            removeRecords(dayOfMonth + "", fixedMonth + "", year + "");
+            getRecordsFromFB(dayOfMonth + "", fixedMonth + "", year + "");
             curDate = dayOfMonth + "/" + fixedMonth + "/" + year;
             Calendar c = Calendar.getInstance();
             c.set(year, month, dayOfMonth);
@@ -70,25 +72,27 @@ public class CalendarFragment extends Fragment {
         return view;
     }
 
-    private void removeRecords(String day, String month, String year) {
+    private void getRecordsFromFB(String day, String month, String year) {
         dateData = new ArrayList<>();
         FBManager.getInstance().getFirebaseFirestore()
                 .collection(FBManager.CALENDAR)
                 .document(year)
                 .collection(month)
+                .document(day)
+                .collection(FBManager.APPOINTMENTS)
                 .get()
                 .addOnSuccessListener(documentSnapshots -> {
                     if (documentSnapshots.isEmpty()) {
-                        Log.d("ptt", "no appointments found");
+                        Log.d("ptt", "no appointments found in calendar");
                     } else {
                         for (DocumentSnapshot ds : documentSnapshots.getDocuments()) {
                             dateData.add(ds.getString("time"));
                             dateData.add(String.valueOf(ds.getLong("record")));
                         }
                     }
-
+                    Log.d("ptt", "dateDate = " + dateData.toString());
                     callback_timeStamp.getRecords(dateData);
-                    //todo: pass dateData list to Hours fragment
+
 
                 });
     }
