@@ -57,6 +57,9 @@ public class TimeStampActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().add(R.id.container_upper_fragment, calendarFragment).commit();
 
         hoursFragment = new HoursFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("records", recordsToRemove);
+        hoursFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().add(R.id.container_lower_fragment, hoursFragment).commit();
     }
 

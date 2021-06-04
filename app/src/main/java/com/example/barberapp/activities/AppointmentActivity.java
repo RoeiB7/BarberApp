@@ -59,7 +59,7 @@ public class AppointmentActivity extends AppCompatActivity {
         checkContactNumber();
         binding.appointmentSearchButton.setOnClickListener(v -> {
 
-            if (isPhoneValid && chosenBarber != null) {
+            if (isPhoneValid && chosenBarber != null && !chosenTreatments.isEmpty()) {
                 User.getInstance().setContactNumber(binding.appointmentContactNumberInput.getText().toString().trim());
                 Intent intent = new Intent(this, TimeStampActivity.class);
                 intent.putExtra("barber", chosenBarber);

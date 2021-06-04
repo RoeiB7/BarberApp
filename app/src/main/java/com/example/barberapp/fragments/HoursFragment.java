@@ -91,17 +91,16 @@ public class HoursFragment extends Fragment {
         }
         adapter = new AdapterHours(view.getContext(), hours);
         //todo: fix the IF statement to ensure customer cant book appointment that takes too long
+        //todo: check worst case when trying to book appointment in the middle of day
         adapter.setClickListener((view, position) -> {
             if (hours.subList(position, hours.size()).size() >=
-                    Integer.parseInt(records.get(records.indexOf(hours.get(position) + 1)))) {
+                    getArguments().getInt("records")) {
                 ((TimeStampActivity) getActivity()).getHour(hours.get(position));
                 ((TimeStampActivity) getActivity()).openBooking();
                 Log.d("ptt", "Records from calendar" + records.toString());
             } else {
                 Toast.makeText(view.getContext(), "Appointment is too long for this hour", Toast.LENGTH_SHORT).show();
             }
-
-
         });
 
 
