@@ -92,7 +92,8 @@ public class HoursFragment extends Fragment {
         adapter = new AdapterHours(view.getContext(), hours);
         //todo: fix the IF statement to ensure customer cant book appointment that takes too long
         adapter.setClickListener((view, position) -> {
-            if (hours.get(position)) {
+            if (hours.subList(position, hours.size()).size() >=
+                    Integer.parseInt(records.get(records.indexOf(hours.get(position) + 1)))) {
                 ((TimeStampActivity) getActivity()).getHour(hours.get(position));
                 ((TimeStampActivity) getActivity()).openBooking();
                 Log.d("ptt", "Records from calendar" + records.toString());
