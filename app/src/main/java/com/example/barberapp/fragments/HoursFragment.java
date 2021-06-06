@@ -27,6 +27,8 @@ public class HoursFragment extends Fragment {
     private FragmentHoursBinding binding;
     private AdapterHours adapter;
     private List<String> hours, records = new ArrayList<>();
+    private List<Double> hoursDoubleEdit, hoursDoubleOG;
+    private int recordsToRemove;
 
     @Nullable
     @Override
@@ -35,74 +37,89 @@ public class HoursFragment extends Fragment {
         view = binding.getRoot();
         createList();
         return view;
-
     }
 
     private void createList() {
         hours = new ArrayList<>();
+        hoursDoubleEdit = new ArrayList<>();
+        hoursDoubleOG = new ArrayList<>();
         for (int i = 9; i < 20; i++) {
             for (int j = 0; j < 60; j = j + 10) {
                 if (j == 0) {
                     hours.add(i + ":00");
+                    hoursDoubleEdit.add((double) i);
+                    hoursDoubleOG.add((double) i);
                 } else {
                     hours.add(i + ":" + j);
+                    hoursDoubleEdit.add((double) i + (j * Math.pow(10, -2)));
+                    hoursDoubleOG.add((double) i + (j * Math.pow(10, -2)));
                 }
             }
         }
+
 
         adapter = new AdapterHours(view.getContext(), hours);
 
         adapter.setClickListener((view, position) -> {
             ((TimeStampActivity) getActivity()).getHour(hours.get(position));
             ((TimeStampActivity) getActivity()).openBooking();
-            Log.d("ptt", "Records from calendar" + records.toString());
 
         });
 
-
         binding.hoursList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         binding.hoursList.setAdapter(adapter);
-
 
     }
 
     public void setRecords(ArrayList<String> arrayList) {
         records = arrayList;
         updateList();
-        Log.d("ptt", "records in setRecords = " + records.toString());
     }
 
     private void updateList() {
-        Log.d("ptt", "Records from calendar" + records.toString());
+        recordsToRemove = getArguments().getInt("records");
         if (!records.isEmpty()) {
-            Log.d("ptt", "here");
             syncLists();
         } else {
             hours.clear();
+            hoursDoubleEdit.clear();
+            hoursDoubleOG.clear();
             for (int i = 9; i < 20; i++) {
                 for (int j = 0; j < 60; j = j + 10) {
                     if (j == 0) {
                         hours.add(i + ":00");
+                        hoursDoubleEdit.add((double) i);
+                        hoursDoubleOG.add((double) i);
                     } else {
                         hours.add(i + ":" + j);
+                        hoursDoubleEdit.add((double) i + (j * Math.pow(10, -2)));
+                        hoursDoubleOG.add((double) i + (j * Math.pow(10, -2)));
                     }
                 }
             }
+            Log.d("ptt", hours.toString());
+            Log.d("ptt", hoursDoubleEdit.toString());
+            Log.d("ptt", hoursDoubleOG.toString());
+
         }
         adapter = new AdapterHours(view.getContext(), hours);
-        //todo: fix the IF statement to ensure customer cant book appointment that takes too long
-        //todo: check worst case when trying to book appointment in the middle of day
+
         adapter.setClickListener((view, position) -> {
-            if (hours.subList(position, hours.size()).size() >=
-                    getArguments().getInt("records")) {
+//todo: check why IF statement not working!
+            if (hours.subList(position, hours.size()).size() >= recordsToRemove
+                    &&
+                    hoursDoubleEdit.get((position + recordsToRemove - 1)) - hoursDoubleEdit.get(position) !=
+                            hoursDoubleOG.get((hoursDoubleOG.indexOf(hoursDoubleEdit.get(position)) + recordsToRemove - 1)) - hoursDoubleEdit.get(position)) {
+                Log.d("ptt", "here");
                 ((TimeStampActivity) getActivity()).getHour(hours.get(position));
                 ((TimeStampActivity) getActivity()).openBooking();
-                Log.d("ptt", "Records from calendar" + records.toString());
+
             } else {
+                Log.d("ptt", "here2");
+
                 Toast.makeText(view.getContext(), "Appointment is too long for this hour", Toast.LENGTH_SHORT).show();
             }
         });
-
 
         binding.hoursList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         binding.hoursList.setAdapter(adapter);
@@ -119,7 +136,8 @@ public class HoursFragment extends Fragment {
                 place = hours.indexOf(time);
                 for (int j = 0; j < record; j++) {
                     hours.remove(place);
-                    Log.d("ptt", "updated hours = " + hours.toString());
+                    hoursDoubleEdit.remove(place);
+
                 }
             }
         }

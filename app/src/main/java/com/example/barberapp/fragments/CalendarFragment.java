@@ -1,13 +1,10 @@
 package com.example.barberapp.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,21 +12,15 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.example.barberapp.R;
-import com.example.barberapp.activities.AppointmentsSummaryActivity;
 import com.example.barberapp.activities.TimeStampActivity;
-import com.example.barberapp.activities.UserActivity;
 import com.example.barberapp.databinding.FragmentCalendarBinding;
 import com.example.barberapp.interfaces.Callback_timeStamp;
-import com.example.barberapp.objects.Appointment;
-import com.example.barberapp.objects.User;
 import com.example.barberapp.utils.FBManager;
-import com.example.barberapp.utils.TimeComperator;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -40,7 +31,6 @@ public class CalendarFragment extends Fragment {
     private long eventOccursOn;
     private ArrayList<String> dateData;
     private Callback_timeStamp callback_timeStamp;
-
 
     //todo: sync current day with hours list
 
