@@ -18,8 +18,12 @@ import com.example.barberapp.activities.TimeStampActivity;
 import com.example.barberapp.databinding.FragmentHoursBinding;
 import com.example.barberapp.adapters.AdapterHours;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class HoursFragment extends Fragment {
 
@@ -27,6 +31,8 @@ public class HoursFragment extends Fragment {
     private FragmentHoursBinding binding;
     private AdapterHours adapter;
     private List<String> hours, records = new ArrayList<>();
+    private List<Double> hoursDoubleEdit, hoursDoubleOG;
+    private int recordsToRemove;
 
     @Nullable
     @Override
@@ -35,75 +41,102 @@ public class HoursFragment extends Fragment {
         view = binding.getRoot();
         createList();
         return view;
-
     }
 
     private void createList() {
         hours = new ArrayList<>();
+        hoursDoubleEdit = new ArrayList<>();
+        hoursDoubleOG = new ArrayList<>();
         for (int i = 9; i < 20; i++) {
             for (int j = 0; j < 60; j = j + 10) {
                 if (j == 0) {
                     hours.add(i + ":00");
+                    hoursDoubleEdit.add((double) i);
+                    hoursDoubleOG.add((double) i);
                 } else {
                     hours.add(i + ":" + j);
+                    hoursDoubleEdit.add((double) i + (j * Math.pow(10, -2)));
+                    hoursDoubleOG.add((double) i + (j * Math.pow(10, -2)));
                 }
             }
         }
+        removeCurrentDay();
 
         adapter = new AdapterHours(view.getContext(), hours);
 
         adapter.setClickListener((view, position) -> {
             ((TimeStampActivity) getActivity()).getHour(hours.get(position));
             ((TimeStampActivity) getActivity()).openBooking();
-            Log.d("ptt", "Records from calendar" + records.toString());
 
         });
 
-
         binding.hoursList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         binding.hoursList.setAdapter(adapter);
-
 
     }
 
     public void setRecords(ArrayList<String> arrayList) {
         records = arrayList;
         updateList();
-        Log.d("ptt", "records in setRecords = " + records.toString());
     }
 
     private void updateList() {
-        Log.d("ptt", "Records from calendar" + records.toString());
+        recordsToRemove = getArguments().getInt("records");
+        Log.d("ptt", String.valueOf(recordsToRemove));
+
         if (!records.isEmpty()) {
-            Log.d("ptt", "here");
             syncLists();
         } else {
             hours.clear();
+            hoursDoubleEdit.clear();
+            hoursDoubleOG.clear();
             for (int i = 9; i < 20; i++) {
                 for (int j = 0; j < 60; j = j + 10) {
                     if (j == 0) {
                         hours.add(i + ":00");
+                        hoursDoubleEdit.add((double) i);
+                        hoursDoubleOG.add((double) i);
                     } else {
                         hours.add(i + ":" + j);
+                        hoursDoubleEdit.add((double) i + (j * Math.pow(10, -2)));
+                        hoursDoubleOG.add((double) i + (j * Math.pow(10, -2)));
                     }
                 }
             }
+            Log.d("ptt", hours.toString());
+            Log.d("ptt", hoursDoubleEdit.toString());
+            Log.d("ptt", hoursDoubleOG.toString());
+
         }
+        removeCurrentDay();
         adapter = new AdapterHours(view.getContext(), hours);
-        //todo: fix the IF statement to ensure customer cant book appointment that takes too long
+
         adapter.setClickListener((view, position) -> {
-            if (hours.subList(position, hours.size()).size() >=
-                    Integer.parseInt(records.get(records.indexOf(hours.get(position) + 1)))) {
-                ((TimeStampActivity) getActivity()).getHour(hours.get(position));
-                ((TimeStampActivity) getActivity()).openBooking();
-                Log.d("ptt", "Records from calendar" + records.toString());
+            double updated_start_hour = hoursDoubleEdit.get(position);
+            if ((position + recordsToRemove - 1) >= hoursDoubleEdit.size()) {
+                Toast.makeText(view.getContext(), "Appointment is too long for this hour", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            double updated_last_hour = hoursDoubleEdit.get((position + recordsToRemove - 1));
+            double original_last_hour = hoursDoubleOG.get((hoursDoubleOG.indexOf(updated_start_hour) + recordsToRemove - 1));
+
+
+            if (hours.subList(position, hours.size()).size() >= recordsToRemove) {
+                Log.d("ptt", "inside first IF");
+                if (updated_last_hour - updated_start_hour == original_last_hour - updated_start_hour) {
+                    Log.d("ptt", "inside second IF");
+                    ((TimeStampActivity) getActivity()).getHour(hours.get(position));
+                    ((TimeStampActivity) getActivity()).openBooking();
+                } else {
+                    Log.d("ptt", "second IF is FALSE");
+                    Toast.makeText(view.getContext(), "Appointment is too long for this hour", Toast.LENGTH_SHORT).show();
+                }
             } else {
+                Log.d("ptt", "first IF is FALSE");
+
                 Toast.makeText(view.getContext(), "Appointment is too long for this hour", Toast.LENGTH_SHORT).show();
             }
-
-
         });
-
 
         binding.hoursList.setLayoutManager(new LinearLayoutManager(view.getContext()));
         binding.hoursList.setAdapter(adapter);
@@ -120,10 +153,27 @@ public class HoursFragment extends Fragment {
                 place = hours.indexOf(time);
                 for (int j = 0; j < record; j++) {
                     hours.remove(place);
-                    Log.d("ptt", "updated hours = " + hours.toString());
+                    hoursDoubleEdit.remove(place);
+
                 }
             }
         }
+        Log.d("ptt", hours.toString());
+        Log.d("ptt", hoursDoubleEdit.toString());
+
+    }
+
+    private void removeCurrentDay() {
+        long currentTime = System.currentTimeMillis();
+        //todo: add IF statement to check that only current day is removed
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.UK);
+        Date date = new Date(currentTime);
+        String time = simpleDateFormat.format(date);
+        String matcher = time.substring(0, 4) + '0';
+        int timeIndex = hours.indexOf(matcher);
+        Log.d("ptt", matcher);
+        hours.removeAll(hours.subList(0, timeIndex + 1));
+        //todo: remove also from double edit and check booking still works
     }
 }
 

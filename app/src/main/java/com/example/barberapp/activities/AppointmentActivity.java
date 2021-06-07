@@ -59,7 +59,7 @@ public class AppointmentActivity extends AppCompatActivity {
         checkContactNumber();
         binding.appointmentSearchButton.setOnClickListener(v -> {
 
-            if (isPhoneValid && chosenBarber != null) {
+            if (isPhoneValid && chosenBarber != null && !chosenTreatments.isEmpty()) {
                 User.getInstance().setContactNumber(binding.appointmentContactNumberInput.getText().toString().trim());
                 Intent intent = new Intent(this, TimeStampActivity.class);
                 intent.putExtra("barber", chosenBarber);
@@ -210,6 +210,7 @@ public class AppointmentActivity extends AppCompatActivity {
     }
 
     private void writeTreatment() {
+        chosenTreatments.clear();
         StringBuilder stringBuilder = new StringBuilder();
         for (int j = 0; j < chosenList.size(); j++) {
             stringBuilder.append(treatmentsArray[chosenList.get(j)]);
