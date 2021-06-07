@@ -18,8 +18,12 @@ import com.example.barberapp.activities.TimeStampActivity;
 import com.example.barberapp.databinding.FragmentHoursBinding;
 import com.example.barberapp.adapters.AdapterHours;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class HoursFragment extends Fragment {
 
@@ -56,7 +60,7 @@ public class HoursFragment extends Fragment {
                 }
             }
         }
-
+        removeCurrentDay();
 
         adapter = new AdapterHours(view.getContext(), hours);
 
@@ -78,6 +82,8 @@ public class HoursFragment extends Fragment {
 
     private void updateList() {
         recordsToRemove = getArguments().getInt("records");
+        Log.d("ptt", String.valueOf(recordsToRemove));
+
         if (!records.isEmpty()) {
             syncLists();
         } else {
@@ -102,20 +108,31 @@ public class HoursFragment extends Fragment {
             Log.d("ptt", hoursDoubleOG.toString());
 
         }
+        removeCurrentDay();
         adapter = new AdapterHours(view.getContext(), hours);
 
         adapter.setClickListener((view, position) -> {
-//todo: check why IF statement not working!
-            if (hours.subList(position, hours.size()).size() >= recordsToRemove
-                    &&
-                    hoursDoubleEdit.get((position + recordsToRemove - 1)) - hoursDoubleEdit.get(position) !=
-                            hoursDoubleOG.get((hoursDoubleOG.indexOf(hoursDoubleEdit.get(position)) + recordsToRemove - 1)) - hoursDoubleEdit.get(position)) {
-                Log.d("ptt", "here");
-                ((TimeStampActivity) getActivity()).getHour(hours.get(position));
-                ((TimeStampActivity) getActivity()).openBooking();
+            double updated_start_hour = hoursDoubleEdit.get(position);
+            if ((position + recordsToRemove - 1) >= hoursDoubleEdit.size()) {
+                Toast.makeText(view.getContext(), "Appointment is too long for this hour", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            double updated_last_hour = hoursDoubleEdit.get((position + recordsToRemove - 1));
+            double original_last_hour = hoursDoubleOG.get((hoursDoubleOG.indexOf(updated_start_hour) + recordsToRemove - 1));
 
+
+            if (hours.subList(position, hours.size()).size() >= recordsToRemove) {
+                Log.d("ptt", "inside first IF");
+                if (updated_last_hour - updated_start_hour == original_last_hour - updated_start_hour) {
+                    Log.d("ptt", "inside second IF");
+                    ((TimeStampActivity) getActivity()).getHour(hours.get(position));
+                    ((TimeStampActivity) getActivity()).openBooking();
+                } else {
+                    Log.d("ptt", "second IF is FALSE");
+                    Toast.makeText(view.getContext(), "Appointment is too long for this hour", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Log.d("ptt", "here2");
+                Log.d("ptt", "first IF is FALSE");
 
                 Toast.makeText(view.getContext(), "Appointment is too long for this hour", Toast.LENGTH_SHORT).show();
             }
@@ -141,6 +158,22 @@ public class HoursFragment extends Fragment {
                 }
             }
         }
+        Log.d("ptt", hours.toString());
+        Log.d("ptt", hoursDoubleEdit.toString());
+
+    }
+
+    private void removeCurrentDay() {
+        long currentTime = System.currentTimeMillis();
+        //todo: add IF statement to check that only current day is removed
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.UK);
+        Date date = new Date(currentTime);
+        String time = simpleDateFormat.format(date);
+        String matcher = time.substring(0, 4) + '0';
+        int timeIndex = hours.indexOf(matcher);
+        Log.d("ptt", matcher);
+        hours.removeAll(hours.subList(0, timeIndex + 1));
+        //todo: remove also from double edit and check booking still works
     }
 }
 

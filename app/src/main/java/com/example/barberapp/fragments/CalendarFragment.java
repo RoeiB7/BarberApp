@@ -80,7 +80,7 @@ public class CalendarFragment extends Fragment {
                             dateData.add(String.valueOf(ds.getLong("record")));
                         }
                     }
-                    Log.d("ptt", "dateDate = " + dateData.toString());
+                    Log.d("ptt", "dateData = " + dateData.toString());
                     callback_timeStamp.getRecords(dateData);
 
 

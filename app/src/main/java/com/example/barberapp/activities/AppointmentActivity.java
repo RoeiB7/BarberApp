@@ -210,6 +210,7 @@ public class AppointmentActivity extends AppCompatActivity {
     }
 
     private void writeTreatment() {
+        chosenTreatments.clear();
         StringBuilder stringBuilder = new StringBuilder();
         for (int j = 0; j < chosenList.size(); j++) {
             stringBuilder.append(treatmentsArray[chosenList.get(j)]);
