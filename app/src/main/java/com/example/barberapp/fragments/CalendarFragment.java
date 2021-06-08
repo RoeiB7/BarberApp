@@ -56,6 +56,7 @@ public class CalendarFragment extends Fragment {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         String selectedDate = sdf.format(new Date(binding.calendar.getDate()));
+        Log.d("ptt", "date from calendar fragment:" + selectedDate);
         ((TimeStampActivity) getActivity()).getDate(selectedDate, binding.calendar.getDate());
         binding.calendar.setMinDate(binding.calendar.getDate());
 
@@ -73,14 +74,12 @@ public class CalendarFragment extends Fragment {
                 .get()
                 .addOnSuccessListener(documentSnapshots -> {
                     if (documentSnapshots.isEmpty()) {
-                        Log.d("ptt", "no appointments found in calendar");
                     } else {
                         for (DocumentSnapshot ds : documentSnapshots.getDocuments()) {
                             dateData.add(ds.getString("time"));
                             dateData.add(String.valueOf(ds.getLong("record")));
                         }
                     }
-                    Log.d("ptt", "dateData = " + dateData.toString());
                     callback_timeStamp.getRecords(dateData);
 
 

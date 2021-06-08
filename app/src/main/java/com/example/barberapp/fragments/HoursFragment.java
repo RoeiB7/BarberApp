@@ -60,8 +60,12 @@ public class HoursFragment extends Fragment {
                 }
             }
         }
-        removeCurrentDay();
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        String selectedDate = sdf.format(new Date(System.currentTimeMillis()));
+        if (getArguments().getString("current_date").equals(selectedDate)) {
+            removeCurrentDay();
+        }
         adapter = new AdapterHours(view.getContext(), hours);
 
         adapter.setClickListener((view, position) -> {
@@ -82,8 +86,6 @@ public class HoursFragment extends Fragment {
 
     private void updateList() {
         recordsToRemove = getArguments().getInt("records");
-        Log.d("ptt", String.valueOf(recordsToRemove));
-
         if (!records.isEmpty()) {
             syncLists();
         } else {
@@ -103,9 +105,6 @@ public class HoursFragment extends Fragment {
                     }
                 }
             }
-            Log.d("ptt", hours.toString());
-            Log.d("ptt", hoursDoubleEdit.toString());
-            Log.d("ptt", hoursDoubleOG.toString());
 
         }
         removeCurrentDay();
@@ -122,17 +121,13 @@ public class HoursFragment extends Fragment {
 
 
             if (hours.subList(position, hours.size()).size() >= recordsToRemove) {
-                Log.d("ptt", "inside first IF");
                 if (updated_last_hour - updated_start_hour == original_last_hour - updated_start_hour) {
-                    Log.d("ptt", "inside second IF");
                     ((TimeStampActivity) getActivity()).getHour(hours.get(position));
                     ((TimeStampActivity) getActivity()).openBooking();
                 } else {
-                    Log.d("ptt", "second IF is FALSE");
                     Toast.makeText(view.getContext(), "Appointment is too long for this hour", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Log.d("ptt", "first IF is FALSE");
 
                 Toast.makeText(view.getContext(), "Appointment is too long for this hour", Toast.LENGTH_SHORT).show();
             }
@@ -158,8 +153,6 @@ public class HoursFragment extends Fragment {
                 }
             }
         }
-        Log.d("ptt", hours.toString());
-        Log.d("ptt", hoursDoubleEdit.toString());
 
     }
 
@@ -171,7 +164,6 @@ public class HoursFragment extends Fragment {
         String time = simpleDateFormat.format(date);
         String matcher = time.substring(0, 4) + '0';
         int timeIndex = hours.indexOf(matcher);
-        Log.d("ptt", matcher);
         hours.removeAll(hours.subList(0, timeIndex + 1));
         //todo: remove also from double edit and check booking still works
     }

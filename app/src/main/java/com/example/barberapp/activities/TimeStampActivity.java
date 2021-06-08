@@ -1,16 +1,11 @@
 package com.example.barberapp.activities;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.barberapp.R;
@@ -21,17 +16,10 @@ import com.example.barberapp.interfaces.Callback_timeStamp;
 import com.example.barberapp.objects.Appointment;
 import com.example.barberapp.objects.User;
 import com.example.barberapp.utils.FBManager;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,12 +41,14 @@ public class TimeStampActivity extends AppCompatActivity {
         recordsToRemove = (int) (getIntent().getLongExtra("time", -1) / 10);
 
         calendarFragment = new CalendarFragment();
-        calendarFragment.setCallback_timeStamp(callBack_right);
+        calendarFragment.setCallback_timeStamp(callback_timeStamp);
         getSupportFragmentManager().beginTransaction().add(R.id.container_upper_fragment, calendarFragment).commit();
 
         hoursFragment = new HoursFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("records", recordsToRemove);
+        Log.d("ptt", "date send to bundle" + chosenDate);
+        bundle.putString("current_date", chosenDate);
         hoursFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().add(R.id.container_lower_fragment, hoursFragment).commit();
     }
@@ -90,6 +80,7 @@ public class TimeStampActivity extends AppCompatActivity {
 
     public void getDate(String date, long _miliDate) {
         chosenDate = date;
+        Log.d("ptt", "date from getDate:" + chosenDate);
         String[] dmy = chosenDate.split("/");
         day = dmy[0];
         month = dmy[1];
@@ -155,12 +146,10 @@ public class TimeStampActivity extends AppCompatActivity {
 
     }
 
-    private final Callback_timeStamp callBack_right = new Callback_timeStamp() {
+    private final Callback_timeStamp callback_timeStamp = new Callback_timeStamp() {
 
         @Override
         public void getRecords(ArrayList<String> arrayList) {
-            Log.d("ptt", "arraylist in getRecords = " + arrayList.toString());
-
             hoursFragment.setRecords(arrayList);
         }
     };
