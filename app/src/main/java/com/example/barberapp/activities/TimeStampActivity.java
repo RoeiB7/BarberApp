@@ -47,8 +47,6 @@ public class TimeStampActivity extends AppCompatActivity {
         hoursFragment = new HoursFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("records", recordsToRemove);
-        Log.d("ptt", "date send to bundle" + chosenDate);
-        bundle.putString("current_date", chosenDate);
         hoursFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().add(R.id.container_lower_fragment, hoursFragment).commit();
     }
@@ -76,16 +74,6 @@ public class TimeStampActivity extends AppCompatActivity {
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> Toast.makeText(this, "Appointment canceled!", Toast.LENGTH_SHORT).show());
         builder.show();
-    }
-
-    public void getDate(String date, long _miliDate) {
-        chosenDate = date;
-        Log.d("ptt", "date from getDate:" + chosenDate);
-        String[] dmy = chosenDate.split("/");
-        day = dmy[0];
-        month = dmy[1];
-        year = dmy[2];
-        miliDate = _miliDate;
     }
 
     public void getHour(String hour) {
@@ -151,6 +139,18 @@ public class TimeStampActivity extends AppCompatActivity {
         @Override
         public void getRecords(ArrayList<String> arrayList) {
             hoursFragment.setRecords(arrayList);
+        }
+
+        @Override
+        public void getDate(String date, long _miliDate) {
+            chosenDate = date;
+            Log.d("ptt", "date from getDate:" + chosenDate);
+            String[] dmy = chosenDate.split("/");
+            day = dmy[0];
+            month = dmy[1];
+            year = dmy[2];
+            miliDate = _miliDate;
+            hoursFragment.setCurrentDate(chosenDate);
         }
     };
 }

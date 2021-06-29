@@ -4,5 +4,6 @@ import java.util.ArrayList;
 
 public interface Callback_timeStamp {
     void getRecords(ArrayList<String> arrayList);
+
+    void getDate(String date, long _miliDate);
 }
-//todo: add getDate interface.

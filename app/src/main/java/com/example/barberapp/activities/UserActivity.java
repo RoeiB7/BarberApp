@@ -49,6 +49,15 @@ public class UserActivity extends AppCompatActivity {
 
     private void initViews() {
         binding.userName.setText("Hi " + User.getInstance().getFirstName() + "!");
+        if (isAdmin()) {
+            binding.userMyAppointmentsButton.setText("All Appointments");
+            binding.userNewAppointmentButton.setText("Edit Options");
+            binding.userEditContactNumberButton.setVisibility(View.GONE);
+        } else {
+            binding.userMyAppointmentsButton.setText("My Appointments");
+            binding.userNewAppointmentButton.setText("New Appointments");
+            binding.userEditContactNumberButton.setVisibility(View.VISIBLE);
+        }
         if (User.getInstance().getImageUri().equals("N/A")) {
             Glide
 
@@ -67,8 +76,14 @@ public class UserActivity extends AppCompatActivity {
                     .into(binding.userImage);
         }
         binding.userNewAppointmentButton.setOnClickListener(v -> {
-            Intent intent = new Intent(this, AppointmentActivity.class);
-            startActivity(intent);
+            if (isAdmin()) {
+                //todo: move to edit options activity
+                Toast.makeText(this, "move to edit options", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(this, AppointmentActivity.class);
+                startActivity(intent);
+            }
+
         });
 
         binding.userEditContactNumberButton.setOnClickListener(v -> {
@@ -95,7 +110,12 @@ public class UserActivity extends AppCompatActivity {
 
         });
         binding.userMyAppointmentsButton.setOnClickListener(v -> {
-            createList();
+            if (isAdmin()) {
+                //todo: move to all appointments activity
+                Toast.makeText(this, "move to all appointmets", Toast.LENGTH_SHORT).show();
+            } else {
+                createList();
+            }
         });
 
     }
@@ -148,8 +168,8 @@ public class UserActivity extends AppCompatActivity {
                             }
                         }
                     }
-                    Collections.sort(activeAppointments, new TimeComperator());
-                    Collections.sort(pastAppointments, new TimeComperator());
+                    activeAppointments.sort(new TimeComperator());
+                    pastAppointments.sort(new TimeComperator());
                     User.getInstance().setActiveAppointments(activeAppointments);
                     User.getInstance().setPastAppointments(pastAppointments);
                     if (activeAppointments.isEmpty() && pastAppointments.isEmpty()) {
@@ -160,4 +180,9 @@ public class UserActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    private boolean isAdmin() {
+        return User.getInstance().getEmail().equals("admin@gmail.com");
+    }
+
 }

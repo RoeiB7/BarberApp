@@ -56,7 +56,6 @@ public class LoginActivity extends AppCompatActivity {
 
         initGoogleClient();
         initViews();
-        //todo: login with admin credentials open admin page with all admin options
     }
 
     @SuppressLint("ClickableViewAccessibility")

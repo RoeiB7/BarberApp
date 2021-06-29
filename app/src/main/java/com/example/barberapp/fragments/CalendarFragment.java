@@ -32,7 +32,6 @@ public class CalendarFragment extends Fragment {
     private ArrayList<String> dateData;
     private Callback_timeStamp callback_timeStamp;
 
-    //todo: sync current day with hours list
 
     @Nullable
     @Override
@@ -44,11 +43,13 @@ public class CalendarFragment extends Fragment {
         binding.calendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             int fixedMonth = month + 1;
             getRecordsFromFB(dayOfMonth + "", fixedMonth + "", year + "");
-            curDate = dayOfMonth + "/" + fixedMonth + "/" + year;
             Calendar c = Calendar.getInstance();
             c.set(year, month, dayOfMonth);
             eventOccursOn = c.getTimeInMillis();
-            ((TimeStampActivity) getActivity()).getDate(curDate, eventOccursOn);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+            String selectedDate = sdf.format(new Date(eventOccursOn));
+            Log.d("ptt", "date from calandar fragment after click " + selectedDate);
+            callback_timeStamp.getDate(selectedDate, eventOccursOn);
 
 
         });
@@ -57,7 +58,7 @@ public class CalendarFragment extends Fragment {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         String selectedDate = sdf.format(new Date(binding.calendar.getDate()));
         Log.d("ptt", "date from calendar fragment:" + selectedDate);
-        ((TimeStampActivity) getActivity()).getDate(selectedDate, binding.calendar.getDate());
+        callback_timeStamp.getDate(selectedDate, binding.calendar.getDate());
         binding.calendar.setMinDate(binding.calendar.getDate());
 
         return view;

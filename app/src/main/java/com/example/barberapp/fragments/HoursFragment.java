@@ -33,6 +33,9 @@ public class HoursFragment extends Fragment {
     private List<String> hours, records = new ArrayList<>();
     private List<Double> hoursDoubleEdit, hoursDoubleOG;
     private int recordsToRemove;
+    private String currDate;
+    private final String selectedDate = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).format(new Date(System.currentTimeMillis()));
+
 
     @Nullable
     @Override
@@ -61,9 +64,8 @@ public class HoursFragment extends Fragment {
             }
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-        String selectedDate = sdf.format(new Date(System.currentTimeMillis()));
-        if (getArguments().getString("current_date").equals(selectedDate)) {
+        if (currDate.equals(selectedDate)) {
+            Log.d("ptt", "inisde if - " + currDate);
             removeCurrentDay();
         }
         adapter = new AdapterHours(view.getContext(), hours);
@@ -81,33 +83,30 @@ public class HoursFragment extends Fragment {
 
     public void setRecords(ArrayList<String> arrayList) {
         records = arrayList;
+        Log.d("ptt", "inside set records");
         updateList();
+    }
+
+    public void setCurrentDate(String date) {
+        currDate = date;
+        Log.d("ptt", "string date inside remove day" + currDate);
     }
 
     private void updateList() {
         recordsToRemove = getArguments().getInt("records");
         if (!records.isEmpty()) {
+            Log.d("ptt", "records is not empty");
+            resetHoursList();
             syncLists();
         } else {
-            hours.clear();
-            hoursDoubleEdit.clear();
-            hoursDoubleOG.clear();
-            for (int i = 9; i < 20; i++) {
-                for (int j = 0; j < 60; j = j + 10) {
-                    if (j == 0) {
-                        hours.add(i + ":00");
-                        hoursDoubleEdit.add((double) i);
-                        hoursDoubleOG.add((double) i);
-                    } else {
-                        hours.add(i + ":" + j);
-                        hoursDoubleEdit.add((double) i + (j * Math.pow(10, -2)));
-                        hoursDoubleOG.add((double) i + (j * Math.pow(10, -2)));
-                    }
-                }
+            resetHoursList();
+            Log.d("ptt", "records is empty");
+            if (currDate.equals(selectedDate)) {
+                Log.d("ptt", "inisde if - " + currDate);
+                removeCurrentDay();
             }
-
         }
-        removeCurrentDay();
+
         adapter = new AdapterHours(view.getContext(), hours);
 
         adapter.setClickListener((view, position) -> {
@@ -158,14 +157,33 @@ public class HoursFragment extends Fragment {
 
     private void removeCurrentDay() {
         long currentTime = System.currentTimeMillis();
-        //todo: add IF statement to check that only current day is removed
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm", Locale.UK);
         Date date = new Date(currentTime);
         String time = simpleDateFormat.format(date);
         String matcher = time.substring(0, 4) + '0';
         int timeIndex = hours.indexOf(matcher);
         hours.removeAll(hours.subList(0, timeIndex + 1));
-        //todo: remove also from double edit and check booking still works
+        hoursDoubleEdit.removeAll(hoursDoubleEdit.subList(0, timeIndex + 1));
+    }
+
+    private void resetHoursList() {
+        hours.clear();
+        hoursDoubleEdit.clear();
+        hoursDoubleOG.clear();
+        for (int i = 9; i < 20; i++) {
+            for (int j = 0; j < 60; j = j + 10) {
+                if (j == 0) {
+                    hours.add(i + ":00");
+                    hoursDoubleEdit.add((double) i);
+                    hoursDoubleOG.add((double) i);
+                } else {
+                    hours.add(i + ":" + j);
+                    hoursDoubleEdit.add((double) i + (j * Math.pow(10, -2)));
+                    hoursDoubleOG.add((double) i + (j * Math.pow(10, -2)));
+                }
+            }
+        }
+
     }
 }
 
