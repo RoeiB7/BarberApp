@@ -111,8 +111,8 @@ public class UserActivity extends AppCompatActivity {
         });
         binding.userMyAppointmentsButton.setOnClickListener(v -> {
             if (isAdmin()) {
-                //todo: move to all appointments activity
-                Toast.makeText(this, "move to all appointmets", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, AdminAppointmentsActivity.class);
+                startActivity(intent);
             } else {
                 createList();
             }

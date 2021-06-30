@@ -27,7 +27,6 @@ import java.util.Locale;
 public class CalendarFragment extends Fragment {
     private View view;
     private FragmentCalendarBinding binding;
-    private String curDate;
     private long eventOccursOn;
     private ArrayList<String> dateData;
     private Callback_timeStamp callback_timeStamp;

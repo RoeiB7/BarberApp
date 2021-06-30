@@ -26,6 +26,30 @@
     <string name="edit_contact">Edit contact number</string>
     <string name="active_appointments">Active Appointments</string>
     <string name="expired_appointments">Expired Appointments</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+
+
+    <string-array name="months">
+        <item>January</item>
+        <item>February</item>
+        <item>March</item>
+        <item>April</item>
+        <item>May</item>
+        <item>June</item>
+        <item>July</item>
+        <item>August</item>
+        <item>September</item>
+        <item>October</item>
+        <item>November</item>
+        <item>December</item>
+    </string-array>
+
+    <string-array name="years">
+        <item>2021</item>
+        <item>2022</item>
+        <item>2023</item>
+    </string-array>
 
 
 </resources>
