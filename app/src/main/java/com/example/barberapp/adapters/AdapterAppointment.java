@@ -38,11 +38,11 @@ public class AdapterAppointment extends RecyclerView.Adapter<AdapterAppointment.
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //todo:check how to indicate which fragment used this adapter (green or red)
         //Log.d("ptt", parent.getClass().getName());
-        if (parent.getClass().getName().equals("ActiveAppointmentFragment")) {
-            layout = R.layout.active_appointments_list;
-        } else if (parent.getClass().getName().equals("PastAppointmentFragment")) {
-            layout = R.layout.past_appointments_list;
-        }
+//        if (parent.getClass().getName().equals("ActiveAppointmentFragment")) {
+//            layout = R.layout.active_appointments_list;
+//        } else if (parent.getClass().getName().equals("PastAppointmentFragment")) {
+//            layout = R.layout.past_appointments_list;
+//        }
         View view = mInflater.inflate(R.layout.active_appointments_list, parent, false);
         return new MyViewHolder(view);
     }

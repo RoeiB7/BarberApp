@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public class Appointment {
 
-    private String barberName, date, hour;
+    private String barberName, date, hour, contactNumber, clientName;
     private long appointmentTime;
+
     public Appointment() {
 
     }
@@ -42,6 +43,22 @@ public class Appointment {
 
     public void setHour(String hour) {
         this.hour = hour;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 
     public long getAppointmentTime() {
