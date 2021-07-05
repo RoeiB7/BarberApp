@@ -28,6 +28,8 @@
     <string name="expired_appointments">Expired Appointments</string>
     <string name="month">Month</string>
     <string name="year">Year</string>
+    <string name="apply">Apply</string>
+    <string name="reset">Reset</string>
 
 
     <string-array name="months">

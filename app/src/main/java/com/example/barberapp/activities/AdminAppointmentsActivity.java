@@ -2,7 +2,9 @@ package com.example.barberapp.activities;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,11 +29,8 @@ public class AdminAppointmentsActivity extends AppCompatActivity {
     private ArrayList<Appointment> allAppointments, filterList;
     private AdapterAppointment adapter;
     private boolean monthFlag = false, yearFlag = false;
-    private String month, year;
+    private String month = "", year = "";
 
-//todo: add apply button to all appointment activity,
-// to make sure admin will choose month & year for filter.
-// "apply" button will activate multipleFilter method.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,64 +57,43 @@ public class AdminAppointmentsActivity extends AppCompatActivity {
                 month = "0" + (position + 1);
             }
 
-
-//            if (yearFlag) {
-//                monthList.clear();
-//                for (Appointment appointment : yearList) {
-//                    if (appointment.getDate().substring(3, 5).equals(month)) {
-//                        monthList.add(appointment);
-//                    }
-//                }
-//            } else {
-//                monthList.clear();
-//                for (int i = 0; i < allAppointments.size(); i++) {
-//                    if (allAppointments.get(i).getDate().substring(3, 5).equals(month)) {
-//                        monthList.add(allAppointments.get(i));
-//                    }
-//                }
-//            }
-//            setList(monthList);
-
-
         });
 
         binding.adminYearFilter.setOnItemClickListener((parent, view, position, id) -> {
             yearFlag = true;
             year = String.valueOf(position + 2021);
 
-
-//            if (monthFlag) {
-//                yearList.clear();
-//                for (Appointment appointment : monthList) {
-//                    if (appointment.getDate().substring(6, 10).equals(year)) {
-//                        yearList.add(appointment);
-//                    }
-//                }
-//            } else {
-//                yearList.clear();
-//                for (int i = 0; i < allAppointments.size(); i++) {
-//                    if (allAppointments.get(i).getDate().substring(6, 10).equals(year)) {
-//                        yearList.add(allAppointments.get(i));
-//                    }
-//                }
-//            }
-//            setList(yearList);
-
-
         });
 
 
-        applyButton.setOnclicklistener.....{
+        binding.adminApplyButton.setOnClickListener(v -> {
+            if (month.equals("") || year.equals("")) {
+                Toast.makeText(AdminAppointmentsActivity.this, "Please select both Year and Month", Toast.LENGTH_SHORT).show();
+            } else if (allAppointments.isEmpty()) {
+                Toast.makeText(AdminAppointmentsActivity.this, "No appointments found", Toast.LENGTH_SHORT).show();
+            } else {
+                filterList = multipleFilter(month, year, allAppointments);
+                if (filterList.isEmpty()) {
+                    Toast.makeText(AdminAppointmentsActivity.this, "No appointments found", Toast.LENGTH_SHORT).show();
+                }
+                setList(filterList);
+            }
+        });
 
-            filterList = multipleFilter(month, year, allAppointments);
-            setList(filterList);
-        }
+        binding.adminResetButton.setOnClickListener(v -> {
+            binding.adminMonthFilter.setText("");
+            binding.adminYearFilter.setText("");
+            binding.adminMonthFilter.clearFocus();
+            binding.adminYearFilter.clearFocus();
+            filterList.clear();
+            setList(allAppointments);
+
+        });
 
         binding.adminMonthFilter.setAdapter(monthsAdapter);
         binding.adminYearFilter.setAdapter(yearsAdapter);
 
 
-        //todo: finish admin all appointment
     }
 
     private void getAllAppointments() {
