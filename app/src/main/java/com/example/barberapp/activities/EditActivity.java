@@ -22,8 +22,6 @@ public class EditActivity extends AppCompatActivity {
     private AppManager manager;
 
 
-    //todo: finish with add barber.
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +43,7 @@ public class EditActivity extends AppCompatActivity {
         });
 
         binding.barberAddButton.setOnClickListener(v -> {
-            addBarberToFB();
+            addBarberToFB(binding.adminBarberInput.getText().toString().trim());
         });
 
         binding.barberRemoveButton.setOnClickListener(v -> {
@@ -81,7 +79,24 @@ public class EditActivity extends AppCompatActivity {
 
     }
 
-    private void addBarberToFB() {
+    private void addBarberToFB(String barberName) {
+        DocumentReference documentReference = FBManager.getInstance()
+                .getFirebaseFirestore()
+                .collection(FBManager.BARBERS)
+                .document(barberName);
+        Map<String, Object> map = new HashMap<>();
+        map.put("Barber Name", barberName);
+
+
+        documentReference.set(map)
+                .addOnSuccessListener(unused -> {
+                    binding.adminBarberInput.setText("");
+                    manager.closeKeyboard(EditActivity.this);
+                    binding.adminBarberInput.clearFocus();
+                    Toast.makeText(this, "Barber add successfully", Toast.LENGTH_SHORT).show();
+                })
+
+                .addOnFailureListener(e -> Toast.makeText(this, "Failed to add barber! Please try again", Toast.LENGTH_LONG).show());
 
 
     }
