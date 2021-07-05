@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -17,8 +18,11 @@ import com.example.barberapp.R;
 import com.example.barberapp.databinding.ActivityAppointmentBinding;
 import com.example.barberapp.objects.User;
 import com.example.barberapp.utils.AppManager;
+import com.example.barberapp.utils.FBManager;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class AppointmentActivity extends AppCompatActivity {
@@ -28,35 +32,27 @@ public class AppointmentActivity extends AppCompatActivity {
     private ActivityAppointmentBinding binding;
     private boolean[] selectTreatment;
     private ArrayList<Integer> chosenList = new ArrayList<>();
-    private String[] treatmentsArray = {
-            "Blow Dry",
-            "Men's Hair Cut",
-            "Beard Trim",
-            "Keratin Straightening",
-            "Extensions",
-            "Kids Cuts",
-            "Ladies Dry Trim",
-            "Full Highlights",
-            "Partial Highlights",
-            "Ombre hair Dying"
-    };
-    private Integer[] treatmentsTime = {30, 30, 10, 120, 60, 20, 60, 180, 120, 180};
+
     private long time = 0;
-    private String[] barbersNames = {"Aviv", "Soli", "Oren"};
     private String chosenBarber;
     private AppManager manager;
     private ArrayList<String> chosenTreatments = new ArrayList<>();
     private boolean isPhoneValid = false;
+    private List<String> treatments, barbers;
+    private List<Integer> durations;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_appointment);
         manager = new AppManager(this);
+        getInfoFromFB();
         initViews();
     }
 
     private void initViews() {
+        Log.d("ptt", "inisde init views");
         checkContactNumber();
         binding.appointmentSearchButton.setOnClickListener(v -> {
 
@@ -109,7 +105,7 @@ public class AppointmentActivity extends AppCompatActivity {
             }
         });
 
-        selectTreatment = new boolean[treatmentsArray.length];
+
         binding.appointmentSelectTreatment.setOnClickListener(v -> buildMultiSelect());
         binding.appointmentSelectBarber.setOnClickListener(v -> buildSingleSelect());
 
@@ -117,14 +113,16 @@ public class AppointmentActivity extends AppCompatActivity {
     }
 
     private void buildSingleSelect() {
+        String[] barbersArray = barbers.toArray(new String[0]);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(
                 AppointmentActivity.this
         );
         builder.setTitle("Select Barber");
         builder.setCancelable(false);
-        builder.setSingleChoiceItems(barbersNames, -1, (dialog, which) -> {
+        builder.setSingleChoiceItems(barbersArray, -1, (dialog, which) -> {
 
-            chosenBarber = barbersNames[which];
+            chosenBarber = barbersArray[which];
 
         });
         builder.setPositiveButton("OK", (dialog, which) -> {
@@ -136,6 +134,10 @@ public class AppointmentActivity extends AppCompatActivity {
     }
 
     private void buildMultiSelect() {
+        selectTreatment = new boolean[treatments.size()];
+        String[] treatmentsArray = treatments.toArray(new String[0]);
+        Integer[] treatmentsTime = durations.toArray(new Integer[0]);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(
                 AppointmentActivity.this
         );
@@ -214,8 +216,8 @@ public class AppointmentActivity extends AppCompatActivity {
         chosenTreatments.clear();
         StringBuilder stringBuilder = new StringBuilder();
         for (int j = 0; j < chosenList.size(); j++) {
-            stringBuilder.append(treatmentsArray[chosenList.get(j)]);
-            chosenTreatments.add(treatmentsArray[chosenList.get(j)]);
+            stringBuilder.append(treatments.get(chosenList.get(j)));
+            chosenTreatments.add(treatments.get(chosenList.get(j)));
             if (j != chosenList.size() - 1) {
                 stringBuilder.append(", ");
             }
@@ -232,5 +234,36 @@ public class AppointmentActivity extends AppCompatActivity {
         }
     }
 
+    private void getInfoFromFB() {
+        treatments = new ArrayList<>();
+        barbers = new ArrayList<>();
+        durations = new ArrayList<>();
 
+        Log.d("ptt", "inisde get info");
+
+        FBManager.getInstance().getFirebaseFirestore()
+                .collection(FBManager.TREATMENTS)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            treatments.add(document.getString("Treatment Name"));
+                            durations.add(Integer.parseInt(document.getString("Treatment Duration")));
+                        }
+                    }
+                });
+
+        FBManager.getInstance().getFirebaseFirestore()
+                .collection(FBManager.BARBERS)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            barbers.add(document.getString("Barber Name"));
+                        }
+                    }
+                });
+
+
+    }
 }
