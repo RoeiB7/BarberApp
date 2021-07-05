@@ -30,6 +30,12 @@
     <string name="year">Year</string>
     <string name="apply">Apply</string>
     <string name="reset">Reset</string>
+    <string name="enter_treatment">Enter Treatment</string>
+    <string name="add">Add</string>
+    <string name="remove">Remove</string>
+    <string name="enter_barber">Enter Barber</string>
+    <string name="edit_options">Edit Options</string>
+    <string name="enter_duration">Duration (min)</string>
 
 
     <string-array name="months">

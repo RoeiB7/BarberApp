@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.EditActivity">
+
+        <TextView
+            android:id="@+id/edit_options"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:text="@string/edit_options"
+            android:textColor="@color/black"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/treatment_input_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_options"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/admin_treatment_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:boxStrokeColor="@color/my_blue"
+                app:hintTextColor="@color/my_blue">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/admin_treatment_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_treatment"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textSize="16sp" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/admin_treatment_time_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1.5"
+                app:boxStrokeColor="@color/my_blue"
+                app:hintTextColor="@color/my_blue">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/admin_treatment_time_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_duration"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textSize="16sp" />
+
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/treatment_buttons_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/treatment_input_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/treatment_add_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/apply_button_style"
+                android:backgroundTint="#5BE161"
+                android:text="@string/add"
+                android:textAllCaps="false"
+                android:textSize="24sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/treatment_remove_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/apply_button_style"
+                android:backgroundTint="#E34646"
+                android:text="@string/remove"
+                android:textAllCaps="false"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/admin_barber_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/treatment_buttons_layout"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="36dp"
+            app:boxStrokeColor="@color/my_blue"
+            app:hintTextColor="@color/my_blue">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/admin_barber_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_barber"
+                android:imeOptions="actionNext"
+                android:inputType="text"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textSize="16sp" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <LinearLayout
+            android:id="@+id/barber_buttons_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/admin_barber_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:padding="4dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/barber_add_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/apply_button_style"
+                android:backgroundTint="#5BE161"
+                android:text="@string/add"
+                android:textAllCaps="false"
+                android:textSize="24sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/barber_remove_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/apply_button_style"
+                android:backgroundTint="#E34646"
+                android:text="@string/remove"
+                android:textAllCaps="false"
+                android:textSize="24sp" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

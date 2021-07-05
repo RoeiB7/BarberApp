@@ -23,6 +23,7 @@ import java.util.Locale;
 
 public class AppointmentActivity extends AppCompatActivity {
 
+    //todo: fix all this activity to sync with new data from Firebase!
 
     private ActivityAppointmentBinding binding;
     private boolean[] selectTreatment;

@@ -77,8 +77,8 @@ public class UserActivity extends AppCompatActivity {
         }
         binding.userNewAppointmentButton.setOnClickListener(v -> {
             if (isAdmin()) {
-                //todo: move to edit options activity
-                Toast.makeText(this, "move to edit options", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, EditActivity.class);
+                startActivity(intent);
             } else {
                 Intent intent = new Intent(this, AppointmentActivity.class);
                 startActivity(intent);
