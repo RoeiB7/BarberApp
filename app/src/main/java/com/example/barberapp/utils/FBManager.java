@@ -18,6 +18,7 @@ public class FBManager {
     public static final String CALENDAR = "calendar";
     public static final String TREATMENTS = "treatments";
     public static final String BARBERS = "barbers";
+    public static final String DAYS_OFF = "days_off";
 
 
     private FBManager() {

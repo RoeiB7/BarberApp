@@ -39,6 +39,10 @@ public class CalendarFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_calendar, container, false);
         view = binding.getRoot();
 
+
+        //todo: disable all off days that selected .
+        // get the list of days from firebase.
+
         binding.calendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
             int fixedMonth = month + 1;
             getRecordsFromFB(dayOfMonth + "", fixedMonth + "", year + "");
@@ -59,7 +63,6 @@ public class CalendarFragment extends Fragment {
         Log.d("ptt", "date from calendar fragment:" + selectedDate);
         callback_timeStamp.getDate(selectedDate, binding.calendar.getDate());
         binding.calendar.setMinDate(binding.calendar.getDate());
-
         return view;
     }
 

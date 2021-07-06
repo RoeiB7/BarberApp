@@ -21,7 +21,6 @@ public class EditActivity extends AppCompatActivity {
     private ActivityEditBinding binding;
     private AppManager manager;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,11 +30,17 @@ public class EditActivity extends AppCompatActivity {
         binding.treatmentAddButton.setOnClickListener(v -> {
             String treatment = binding.adminTreatmentInput.getText().toString().trim();
             String duration = binding.adminTreatmentTimeInput.getText().toString().trim();
-            if (!treatment.isEmpty() && !duration.isEmpty()) {
-                addTreatmentToFB(treatment, duration);
-            } else {
+            if (treatment.isEmpty() && duration.isEmpty()) {
                 Toast.makeText(EditActivity.this, "Please fill both Treatment and Duration", Toast.LENGTH_LONG).show();
+
+            } else if (duration.charAt(duration.length() - 1) != '0') {
+                Toast.makeText(EditActivity.this, "Please make sure the duration is in increments of 10", Toast.LENGTH_LONG).show();
+
+            } else {
+                addTreatmentToFB(treatment, duration);
             }
+
+
         });
 
         binding.treatmentRemoveButton.setOnClickListener(v -> {

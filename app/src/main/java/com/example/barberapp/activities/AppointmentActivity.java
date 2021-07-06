@@ -27,7 +27,6 @@ import java.util.Locale;
 
 public class AppointmentActivity extends AppCompatActivity {
 
-    //todo: fix all this activity to sync with new data from Firebase!
 
     private ActivityAppointmentBinding binding;
     private boolean[] selectTreatment;
@@ -52,7 +51,6 @@ public class AppointmentActivity extends AppCompatActivity {
     }
 
     private void initViews() {
-        Log.d("ptt", "inisde init views");
         checkContactNumber();
         binding.appointmentSearchButton.setOnClickListener(v -> {
 
@@ -144,28 +142,22 @@ public class AppointmentActivity extends AppCompatActivity {
         builder.setTitle("Select Treatment - Up to 3 ");
         builder.setCancelable(false);
 
-        builder.setMultiChoiceItems(treatmentsArray, selectTreatment, new DialogInterface.OnMultiChoiceClickListener() {
-            int count = 0;
-
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                if (isChecked) {
-                    if (!chosenList.contains(which))
-                        if (chosenList.size() < 3) {
-                            chosenList.add(which);
-                            time = time + treatmentsTime[which];
-                            selectTreatment[which] = true;
-                        } else {
-                            count--;
-                            ((AlertDialog) dialog).getListView().setItemChecked(which, false);
-                            selectTreatment[which] = false;
-                            Toast.makeText(getApplicationContext(), "you can't add more", Toast.LENGTH_SHORT).show();
-                        }
-                } else if (chosenList.contains(which)) {
-                    chosenList.remove(chosenList.indexOf(which));
-                    time = time - treatmentsTime[which];
-                    selectTreatment[which] = false;
-                }
+        builder.setMultiChoiceItems(treatmentsArray, selectTreatment, (dialog, which, isChecked) -> {
+            if (isChecked) {
+                if (!chosenList.contains(which))
+                    if (chosenList.size() < 3) {
+                        chosenList.add(which);
+                        time = time + treatmentsTime[which];
+                        selectTreatment[which] = true;
+                    } else {
+                        ((AlertDialog) dialog).getListView().setItemChecked(which, false);
+                        selectTreatment[which] = false;
+                        Toast.makeText(getApplicationContext(), "you can't add more", Toast.LENGTH_SHORT).show();
+                    }
+            } else if (chosenList.contains(which)) {
+                chosenList.remove(chosenList.indexOf(which));
+                time = time - treatmentsTime[which];
+                selectTreatment[which] = false;
             }
         });
 
@@ -239,7 +231,6 @@ public class AppointmentActivity extends AppCompatActivity {
         barbers = new ArrayList<>();
         durations = new ArrayList<>();
 
-        Log.d("ptt", "inisde get info");
 
         FBManager.getInstance().getFirebaseFirestore()
                 .collection(FBManager.TREATMENTS)

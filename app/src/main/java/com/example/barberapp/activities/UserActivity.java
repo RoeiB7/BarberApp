@@ -25,6 +25,7 @@ import com.example.barberapp.utils.TimeComperator;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -33,15 +34,16 @@ import java.util.Collections;
 public class UserActivity extends AppCompatActivity {
 
     private ActivityUserBinding binding;
-    private ArrayList<Appointment> activeAppointments;
-    private ArrayList<Appointment> pastAppointments;
+    private ArrayList<Appointment> activeAppointments, pastAppointments;
     private Appointment appointment;
+    private ArrayList<String> days_off;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user);
+        checkDaysOff();
         initViews();
 
 
@@ -53,6 +55,10 @@ public class UserActivity extends AppCompatActivity {
             binding.userMyAppointmentsButton.setText("All Appointments");
             binding.userNewAppointmentButton.setText("Edit Options");
             binding.userEditContactNumberButton.setVisibility(View.GONE);
+            Log.d("ptt", "days off in initviews: " + days_off.toString());
+            if (days_off.isEmpty() && getIntent().getIntExtra("flag", 0) == 0) {
+                daysOffAlert();
+            }
         } else {
             binding.userMyAppointmentsButton.setText("My Appointments");
             binding.userNewAppointmentButton.setText("New Appointments");
@@ -77,8 +83,12 @@ public class UserActivity extends AppCompatActivity {
         }
         binding.userNewAppointmentButton.setOnClickListener(v -> {
             if (isAdmin()) {
-                Intent intent = new Intent(this, EditActivity.class);
-                startActivity(intent);
+                if (days_off.isEmpty()) {
+                    daysOffAlert();
+                } else {
+                    Intent intent = new Intent(this, EditActivity.class);
+                    startActivity(intent);
+                }
             } else {
                 Intent intent = new Intent(this, AppointmentActivity.class);
                 startActivity(intent);
@@ -111,8 +121,12 @@ public class UserActivity extends AppCompatActivity {
         });
         binding.userMyAppointmentsButton.setOnClickListener(v -> {
             if (isAdmin()) {
-                Intent intent = new Intent(this, AdminAppointmentsActivity.class);
-                startActivity(intent);
+                if (days_off.isEmpty()) {
+                    daysOffAlert();
+                } else {
+                    Intent intent = new Intent(this, AdminAppointmentsActivity.class);
+                    startActivity(intent);
+                }
             } else {
                 createList();
             }
@@ -183,6 +197,38 @@ public class UserActivity extends AppCompatActivity {
 
     private boolean isAdmin() {
         return User.getInstance().getEmail().equals("admin@gmail.com");
+    }
+
+    private void checkDaysOff() {
+        days_off = new ArrayList<>();
+        Log.d("ptt", "day off at start of get days" + days_off.toString());
+        FBManager.getInstance().getFirebaseFirestore()
+                .collection(FBManager.DAYS_OFF)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            days_off.addAll((ArrayList<String>) document.getData().get("Days Off"));
+                        }
+                        Log.d("ptt", "day off at end of get days" + days_off.toString());
+
+                    }
+                });
+    }
+
+    private void daysOffAlert() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(
+                this
+        );
+        builder.setTitle("Choose Days Off");
+        builder.setMessage("\n" + "Please choose your barber shop days off first!");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            Intent intent = new Intent(this, DaysOffActivity.class);
+            startActivity(intent);
+        });
+        builder.show();
     }
 
 }

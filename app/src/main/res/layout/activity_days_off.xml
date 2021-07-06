@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".activities.DaysOffActivity">
+
+
+        <TextView
+            android:id="@+id/days_off"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="32dp"
+            android:text="@string/days_off_selection"
+            android:textColor="@color/black"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/select_days_off"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/days_off"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="72dp"
+            android:layout_marginEnd="16dp"
+            android:background="@android:drawable/editbox_background"
+            android:drawablePadding="16dp"
+            android:hint="@string/select_days"
+            android:padding="12dp"
+            android:textColorHint="@color/black"
+            android:textStyle="bold"
+            app:drawableEndCompat="@android:drawable/arrow_down_float" />
+
+
+        <Button
+            android:id="@+id/apply_days_off_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/select_days_off"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="80dp"
+            android:backgroundTint="@color/my_blue"
+            android:text="@string/apply"
+            android:textAllCaps="false" />
+
+    </RelativeLayout>
+
+</layout>
