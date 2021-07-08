@@ -82,7 +82,6 @@ public class AppManager {
                 .document(FBManager.getInstance().getUserID());
         docRef.addSnapshotListener((snapshot, e) -> {
             if (e != null) {
-                Log.d("ptt", "user data listen failed.");
                 return;
             }
 
@@ -96,7 +95,6 @@ public class AppManager {
 
                 moveToUserActivity(activity);
             } else {
-                Log.d("ptt", "user data: null");
             }
         });
 

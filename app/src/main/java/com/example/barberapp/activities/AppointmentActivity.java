@@ -1,11 +1,9 @@
 package com.example.barberapp.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -19,6 +17,7 @@ import com.example.barberapp.databinding.ActivityAppointmentBinding;
 import com.example.barberapp.objects.User;
 import com.example.barberapp.utils.AppManager;
 import com.example.barberapp.utils.FBManager;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
@@ -38,6 +37,7 @@ public class AppointmentActivity extends AppCompatActivity {
     private ArrayList<String> chosenTreatments = new ArrayList<>();
     private boolean isPhoneValid = false;
     private List<String> treatments, barbers;
+    private ArrayList<String> daysOff;
     private List<Integer> durations;
 
 
@@ -60,6 +60,7 @@ public class AppointmentActivity extends AppCompatActivity {
                 intent.putExtra("barber", chosenBarber);
                 intent.putExtra("time", time);
                 intent.putStringArrayListExtra("treatments", chosenTreatments);
+                intent.putStringArrayListExtra("days", daysOff);
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "Error! one or more fields are incomplete", Toast.LENGTH_SHORT).show();
@@ -230,6 +231,7 @@ public class AppointmentActivity extends AppCompatActivity {
         treatments = new ArrayList<>();
         barbers = new ArrayList<>();
         durations = new ArrayList<>();
+        daysOff = new ArrayList<>();
 
 
         FBManager.getInstance().getFirebaseFirestore()
@@ -255,6 +257,19 @@ public class AppointmentActivity extends AppCompatActivity {
                     }
                 });
 
+
+        FBManager.getInstance().getFirebaseFirestore()
+                .collection(FBManager.DAYS_OFF)
+                .get()
+                .addOnSuccessListener(documentSnapshots -> {
+                    if (documentSnapshots.isEmpty()) {
+                    } else {
+                        for (DocumentSnapshot ds : documentSnapshots.getDocuments()) {
+                            daysOff.addAll((ArrayList<String>) ds.getData().get("Days Off"));
+                        }
+                    }
+
+                });
 
     }
 }

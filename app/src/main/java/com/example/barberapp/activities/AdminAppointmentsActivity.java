@@ -2,7 +2,6 @@ package com.example.barberapp.activities;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -21,14 +20,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class AdminAppointmentsActivity extends AppCompatActivity {
 
     private ActivityAdminAppointmentsBinding binding;
     private ArrayList<Appointment> allAppointments, filterList;
     private AdapterAppointment adapter;
-    private boolean monthFlag = false, yearFlag = false;
     private String month = "", year = "";
 
 
@@ -48,7 +45,6 @@ public class AdminAppointmentsActivity extends AppCompatActivity {
         ArrayAdapter<String> yearsAdapter = new ArrayAdapter<>(this, R.layout.dropdown_item, years);
 
         binding.adminMonthFilter.setOnItemClickListener((parent, view, position, id) -> {
-            monthFlag = true;
             filterList.clear();
 
             if ((position + 1) > 9) {
@@ -60,7 +56,6 @@ public class AdminAppointmentsActivity extends AppCompatActivity {
         });
 
         binding.adminYearFilter.setOnItemClickListener((parent, view, position, id) -> {
-            yearFlag = true;
             year = String.valueOf(position + 2021);
 
         });
@@ -111,7 +106,6 @@ public class AdminAppointmentsActivity extends AppCompatActivity {
                                     .get()
                                     .addOnCompleteListener(task2 -> {
                                         if (task2.isSuccessful()) {
-                                            Log.d("ptt", "task2 is successful");
                                             for (QueryDocumentSnapshot document2 : task2.getResult()) {
                                                 Appointment appointment = document2.toObject(Appointment.class);
                                                 appointment.setContactNumber(document1.getString("Contact Number"));

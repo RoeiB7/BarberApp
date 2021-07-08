@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,40 +29,51 @@ public class CalendarFragment extends Fragment {
     private View view;
     private FragmentCalendarBinding binding;
     private long eventOccursOn;
-    private ArrayList<String> dateData;
+    private ArrayList<String> dateData, daysOff;
     private Callback_timeStamp callback_timeStamp;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_calendar, container, false);
         view = binding.getRoot();
+        daysOff = getArguments().getStringArrayList("days");
 
-
-        //todo: disable all off days that selected .
-        // get the list of days from firebase.
 
         binding.calendar.setOnDateChangeListener((view, year, month, dayOfMonth) -> {
+
             int fixedMonth = month + 1;
             getRecordsFromFB(dayOfMonth + "", fixedMonth + "", year + "");
             Calendar c = Calendar.getInstance();
             c.set(year, month, dayOfMonth);
+            String day = String.valueOf(c.get(Calendar.DAY_OF_WEEK));
             eventOccursOn = c.getTimeInMillis();
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
             String selectedDate = sdf.format(new Date(eventOccursOn));
-            Log.d("ptt", "date from calandar fragment after click " + selectedDate);
-            callback_timeStamp.getDate(selectedDate, eventOccursOn);
-
+            if (daysOff.contains(day)) {
+                Toast.makeText(view.getContext(), "This is an day off, Please pick another day", Toast.LENGTH_LONG).show();
+                callback_timeStamp.getFlag(1);
+            } else {
+                callback_timeStamp.getDate(selectedDate, eventOccursOn);
+                callback_timeStamp.getFlag(0);
+            }
 
         });
 
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         String selectedDate = sdf.format(new Date(binding.calendar.getDate()));
-        Log.d("ptt", "date from calendar fragment:" + selectedDate);
-        callback_timeStamp.getDate(selectedDate, binding.calendar.getDate());
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(binding.calendar.getDate());
+        String day = String.valueOf(c.get(Calendar.DAY_OF_WEEK));
+        if (daysOff.contains(day)) {
+            Toast.makeText(view.getContext(), "This is an day off, Please pick another day", Toast.LENGTH_LONG).show();
+            callback_timeStamp.getFlag(1);
+        } else {
+            callback_timeStamp.getDate(selectedDate, binding.calendar.getDate());
+            callback_timeStamp.getFlag(0);
+        }
         binding.calendar.setMinDate(binding.calendar.getDate());
         return view;
     }
@@ -88,6 +100,7 @@ public class CalendarFragment extends Fragment {
 
                 });
     }
+
 
     public void setCallback_timeStamp(Callback_timeStamp callback_timeStamp) {
         this.callback_timeStamp = callback_timeStamp;

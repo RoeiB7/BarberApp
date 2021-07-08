@@ -2,7 +2,6 @@ package com.example.barberapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,9 +26,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class UserActivity extends AppCompatActivity {
 
@@ -45,8 +42,6 @@ public class UserActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_user);
         checkDaysOff();
         initViews();
-
-
     }
 
     private void initViews() {
@@ -55,10 +50,22 @@ public class UserActivity extends AppCompatActivity {
             binding.userMyAppointmentsButton.setText("All Appointments");
             binding.userNewAppointmentButton.setText("Edit Options");
             binding.userEditContactNumberButton.setVisibility(View.GONE);
-            Log.d("ptt", "days off in initviews: " + days_off.toString());
-            if (days_off.isEmpty() && getIntent().getIntExtra("flag", 0) == 0) {
-                daysOffAlert();
-            }
+
+            days_off = new ArrayList<>();
+            FBManager.getInstance().getFirebaseFirestore()
+                    .collection(FBManager.DAYS_OFF)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                days_off.addAll((ArrayList<String>) document.getData().get("Days Off"));
+                            }
+                            if (days_off.isEmpty() && getIntent().getIntExtra("flag", 0) == 0) {
+                                daysOffAlert();
+                            }
+                        }
+                    });
+
         } else {
             binding.userMyAppointmentsButton.setText("My Appointments");
             binding.userNewAppointmentButton.setText("New Appointments");
@@ -200,20 +207,7 @@ public class UserActivity extends AppCompatActivity {
     }
 
     private void checkDaysOff() {
-        days_off = new ArrayList<>();
-        Log.d("ptt", "day off at start of get days" + days_off.toString());
-        FBManager.getInstance().getFirebaseFirestore()
-                .collection(FBManager.DAYS_OFF)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            days_off.addAll((ArrayList<String>) document.getData().get("Days Off"));
-                        }
-                        Log.d("ptt", "day off at end of get days" + days_off.toString());
 
-                    }
-                });
     }
 
     private void daysOffAlert() {

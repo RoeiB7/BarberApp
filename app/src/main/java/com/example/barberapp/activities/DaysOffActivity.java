@@ -1,14 +1,12 @@
 package com.example.barberapp.activities;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.barberapp.R;
 import com.example.barberapp.databinding.ActivityDaysOffBinding;
@@ -17,7 +15,6 @@ import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class DaysOffActivity extends AppCompatActivity {
@@ -92,7 +89,7 @@ public class DaysOffActivity extends AppCompatActivity {
         StringBuilder stringBuilder = new StringBuilder();
         for (int j = 0; j < chosenList.size(); j++) {
             stringBuilder.append(days[chosenList.get(j)]);
-            chosenDays.add(days[chosenList.get(j)]);
+            chosenDays.add(String.valueOf(chosenList.get(j) + 1));
             if (j != chosenList.size() - 1) {
                 stringBuilder.append(", ");
             }

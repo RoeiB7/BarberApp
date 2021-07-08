@@ -1,15 +1,13 @@
 package com.example.barberapp.activities;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-
-import android.os.Bundle;
 
 import com.example.barberapp.R;
 import com.example.barberapp.databinding.ActivityAppointmentsSummaryBinding;
 import com.example.barberapp.fragments.ActiveAppointmentsFragment;
-import com.example.barberapp.fragments.CalendarFragment;
-import com.example.barberapp.fragments.HoursFragment;
 import com.example.barberapp.fragments.PastAppointmentFragment;
 
 public class AppointmentsSummaryActivity extends AppCompatActivity {

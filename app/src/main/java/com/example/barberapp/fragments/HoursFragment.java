@@ -65,7 +65,6 @@ public class HoursFragment extends Fragment {
         }
 
         if (currDate.equals(selectedDate)) {
-            Log.d("ptt", "inisde if - " + currDate);
             removeCurrentDay();
         }
         adapter = new AdapterHours(view.getContext(), hours);
@@ -83,26 +82,21 @@ public class HoursFragment extends Fragment {
 
     public void setRecords(ArrayList<String> arrayList) {
         records = arrayList;
-        Log.d("ptt", "inside set records");
         updateList();
     }
 
     public void setCurrentDate(String date) {
         currDate = date;
-        Log.d("ptt", "string date inside remove day" + currDate);
     }
 
     private void updateList() {
         recordsToRemove = getArguments().getInt("records");
         if (!records.isEmpty()) {
-            Log.d("ptt", "records is not empty");
             resetHoursList();
             syncLists();
         } else {
             resetHoursList();
-            Log.d("ptt", "records is empty");
             if (currDate.equals(selectedDate)) {
-                Log.d("ptt", "inisde if - " + currDate);
                 removeCurrentDay();
             }
         }
@@ -183,8 +177,9 @@ public class HoursFragment extends Fragment {
                 }
             }
         }
-
     }
+
+
 }
 
 

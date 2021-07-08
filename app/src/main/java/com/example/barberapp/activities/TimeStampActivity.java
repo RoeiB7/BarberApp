@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.barberapp.R;
@@ -29,7 +30,7 @@ public class TimeStampActivity extends AppCompatActivity {
     private HoursFragment hoursFragment;
     private ActivityTimeStampBinding binding;
     private String chosenHour, chosenDate, barberName, contactNumber, day, month, year;
-    private ArrayList<String> treatments;
+    private ArrayList<String> treatments, daysOff;
     private long miliDate;
     private int recordsToRemove;
 
@@ -39,14 +40,19 @@ public class TimeStampActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_time_stamp);
         recordsToRemove = (int) (getIntent().getLongExtra("time", -1) / 10);
+        daysOff = getIntent().getStringArrayListExtra("days");
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("records", recordsToRemove);
+        bundle.putStringArrayList("days", daysOff);
+
 
         calendarFragment = new CalendarFragment();
         calendarFragment.setCallback_timeStamp(callback_timeStamp);
+        calendarFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().add(R.id.container_upper_fragment, calendarFragment).commit();
 
         hoursFragment = new HoursFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt("records", recordsToRemove);
         hoursFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().add(R.id.container_lower_fragment, hoursFragment).commit();
     }
@@ -144,13 +150,21 @@ public class TimeStampActivity extends AppCompatActivity {
         @Override
         public void getDate(String date, long _miliDate) {
             chosenDate = date;
-            Log.d("ptt", "date from getDate:" + chosenDate);
             String[] dmy = chosenDate.split("/");
             day = dmy[0];
             month = dmy[1];
             year = dmy[2];
             miliDate = _miliDate;
             hoursFragment.setCurrentDate(chosenDate);
+        }
+
+        @Override
+        public void getFlag(int flag) {
+            if (flag == 1) {
+                binding.containerLowerFragment.setVisibility(View.GONE);
+            } else {
+                binding.containerLowerFragment.setVisibility(View.VISIBLE);
+            }
         }
     };
 }
